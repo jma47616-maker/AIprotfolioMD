@@ -1,0 +1,2384 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulmonary–Renal Syndrome</title>
+<meta name="description" content="Teaching session on pulmonary–renal syndrome for the Respiratory Department, Calderdale Royal Hospital.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root{
+  --bg:#0a1120; --bg2:#0f1a30; --panel:#14213b; --panel2:#1a2a4a;
+  --ink:#eef3fb; --ink2:#c9d5ea; --muted:#8fa3c4; --line:rgba(255,255,255,.10);
+  --blood:#e8364f; --blood2:#ff7085; --blood3:#7a1020;
+  --oxy:#22c3b5; --oxy2:#7debe0;
+  --gold:#f5b840; --violet:#9b8cff; --sky:#4aa3ff; --green:#3fd68a;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --serif:'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --sans:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --scale:1;
+  color-scheme: dark;
+}
+:root[data-theme="light"]{
+  --bg:#f4f6fb; --bg2:#e9eef7; --panel:#ffffff; --panel2:#eef2f9;
+  --ink:#0d1b33; --ink2:#22324f; --muted:#5a6b88; --line:rgba(13,27,51,.12);
+  --blood:#c81e3a; --blood2:#e0344d; --blood3:#f9d5db;
+  --oxy:#0e8f84; --oxy2:#0b7369;
+  --gold:#b87900; --violet:#5b48d9; --sky:#1d6fd6; --green:#13915a;
+  --shadow:0 18px 50px rgba(13,27,51,.15);
+  color-scheme: light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#05090f;overflow:hidden}
+body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+:root[data-theme="light"] body{background:#c9d1df}
+button{font-family:inherit;cursor:pointer}
+
+/* ============================================================
+   STAGE — 1600x900 design canvas scaled to fit the screen
+   ============================================================ */
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform:scale(var(--scale));transform-origin:center center;flex:none}
+.slide{
+  position:absolute;inset:0;padding:64px 88px 70px;
+  background:
+    radial-gradient(1200px 600px at 110% -10%, rgba(232,54,79,.13), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(34,195,181,.11), transparent 60%),
+    linear-gradient(160deg,var(--bg2),var(--bg));
+  overflow:hidden;opacity:0;visibility:hidden;
+  transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1), visibility 0s .5s;
+  transform:translateX(40px) scale(.985);
+  display:flex;flex-direction:column;
+}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
+.slide.past{transform:translateX(-40px) scale(.985)}
+.slide::after{ /* fine grid texture */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse at center,transparent 40%,#000 100%);
+  -webkit-mask-image:radial-gradient(ellipse at center,transparent 40%,#000 100%);
+}
+.slide > *{position:relative;z-index:1}
+.notes{display:none}
+
+/* chrome on each slide */
+.chrome-top{display:flex;align-items:center;gap:14px;margin-bottom:22px;min-height:30px}
+.chip{font:600 14px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:999px;background:rgba(232,54,79,.14);color:var(--blood2);border:1px solid rgba(232,54,79,.35)}
+.chip.teal{background:rgba(34,195,181,.13);color:var(--oxy2);border-color:rgba(34,195,181,.35)}
+.chip.gold{background:rgba(245,184,64,.13);color:var(--gold);border-color:rgba(245,184,64,.35)}
+.chip.violet{background:rgba(155,140,255,.14);color:var(--violet);border-color:rgba(155,140,255,.35)}
+.chip.sky{background:rgba(74,163,255,.14);color:var(--sky);border-color:rgba(74,163,255,.35)}
+.timechip{margin-left:auto;font:500 14px var(--mono);color:var(--muted)}
+.footer{position:absolute;left:88px;right:88px;bottom:26px;display:flex;justify-content:space-between;align-items:center;font:500 14px var(--sans);color:var(--muted);z-index:2}
+.footer .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blood);margin:0 10px;vertical-align:middle}
+.footer .num{font-family:var(--mono)}
+
+/* typography */
+h1{font:400 92px/1.02 var(--serif);letter-spacing:-.01em}
+h2{font:400 60px/1.08 var(--serif);letter-spacing:-.005em;margin-bottom:26px}
+h2 em, h1 em{font-style:italic;color:var(--blood2)}
+h3{font:700 26px/1.25 var(--sans);margin-bottom:10px}
+h4{font:700 15px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+p,li{font-size:25px;line-height:1.45;color:var(--ink2)}
+.lead{font-size:30px;line-height:1.4;color:var(--ink2);max-width:1250px}
+.small{font-size:19px;line-height:1.45}
+.tiny{font-size:15px;line-height:1.4;color:var(--muted)}
+b,strong{color:var(--ink);font-weight:700}
+.red{color:var(--blood2)} .teal{color:var(--oxy2)} .gold{color:var(--gold)} .violet{color:var(--violet)} .sky{color:var(--sky)} .green{color:var(--green)} .muted{color:var(--muted)}
+.mono{font-family:var(--mono)}
+ul.clean{list-style:none}
+ul.clean li{position:relative;padding-left:34px;margin:10px 0}
+ul.clean li::before{content:"";position:absolute;left:4px;top:.62em;width:12px;height:12px;border-radius:3px;background:var(--blood);transform:rotate(45deg)}
+ul.clean.teal li::before{background:var(--oxy)}
+ul.clean.gold li::before{background:var(--gold)}
+mark{background:linear-gradient(transparent 55%,rgba(245,184,64,.45) 55%);color:inherit;padding:0 2px}
+
+/* layout helpers */
+.row{display:flex;gap:36px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.g-6-4{display:grid;grid-template-columns:1.5fr 1fr;gap:44px}
+.g-4-6{display:grid;grid-template-columns:1fr 1.5fr;gap:44px}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.fill{flex:1;min-height:0}
+.mt{margin-top:22px}.mt2{margin-top:40px}.mb{margin-bottom:18px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:26px 28px;box-shadow:var(--shadow)}
+:root[data-theme="light"] .card{background:var(--panel)}
+.card.red{border-color:rgba(232,54,79,.45);background:linear-gradient(180deg,rgba(232,54,79,.14),rgba(232,54,79,.03))}
+.card.teal{border-color:rgba(34,195,181,.45);background:linear-gradient(180deg,rgba(34,195,181,.13),rgba(34,195,181,.03))}
+.card.gold{border-color:rgba(245,184,64,.45);background:linear-gradient(180deg,rgba(245,184,64,.13),rgba(245,184,64,.03))}
+.card.violet{border-color:rgba(155,140,255,.45);background:linear-gradient(180deg,rgba(155,140,255,.14),rgba(155,140,255,.03))}
+.card.sky{border-color:rgba(74,163,255,.45);background:linear-gradient(180deg,rgba(74,163,255,.14),rgba(74,163,255,.03))}
+.card p,.card li{font-size:21px}
+.icon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:28px;margin-bottom:14px;background:rgba(255,255,255,.07)}
+.img{border-radius:22px;overflow:hidden;background:#07101f;border:1px solid var(--line);box-shadow:var(--shadow);position:relative}
+.img svg{display:block;width:100%;height:100%}
+.caption{font-size:15px;color:var(--muted);margin-top:10px;text-align:center}
+.quote{font:italic 400 38px/1.3 var(--serif);color:var(--ink)}
+.bignum{font:400 110px/1 var(--serif);color:var(--blood2)}
+.callout{border-left:6px solid var(--gold);padding:16px 22px;background:rgba(245,184,64,.08);border-radius:0 14px 14px 0;font-size:23px;color:var(--ink2)}
+.callout.red{border-color:var(--blood);background:rgba(232,54,79,.09)}
+.callout.teal{border-color:var(--oxy);background:rgba(34,195,181,.09)}
+.joke{display:inline-block;font-size:20px;color:var(--gold);background:rgba(245,184,64,.08);border:1px dashed rgba(245,184,64,.45);padding:10px 16px;border-radius:14px}
+.tag{display:inline-block;font:600 15px var(--sans);padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08);color:var(--ink2);margin:3px 4px 3px 0}
+.tag.red{background:rgba(232,54,79,.2);color:var(--blood2)}
+.tag.teal{background:rgba(34,195,181,.18);color:var(--oxy2)}
+.tag.gold{background:rgba(245,184,64,.18);color:var(--gold)}
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:20px}
+table.t th{font:700 15px var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line)}
+table.t td{padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+table.t tr:last-child td{border-bottom:none}
+table.t td:first-child{color:var(--ink);font-weight:700}
+
+/* fragments (revealed one-by-one with → / space) */
+.f{opacity:0;transform:translateY(14px);transition:opacity .4s ease, transform .45s cubic-bezier(.2,.7,.2,1)}
+.f.on{opacity:1;transform:none}
+.f.dim-prev.on ~ .f.on{} /* placeholder */
+
+/* ============================================================
+   INTERACTIVE COMPONENTS
+   ============================================================ */
+/* MCQ */
+.mcq .q{font:600 30px/1.35 var(--sans);color:var(--ink);margin-bottom:22px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.opt{display:flex;align-items:center;gap:18px;text-align:left;font:500 22px/1.35 var(--sans);color:var(--ink);background:rgba(255,255,255,.05);border:1.5px solid var(--line);border-radius:18px;padding:18px 22px;transition:all .25s}
+:root[data-theme="light"] .opt{background:var(--panel)}
+.opt:hover{border-color:var(--sky);transform:translateY(-2px)}
+.opt .k{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font:700 20px var(--mono);background:rgba(255,255,255,.08)}
+.opt .votes{margin-left:auto;font:600 18px var(--mono);color:var(--muted);display:flex;align-items:center;gap:6px}
+.opt .votes i{font-style:normal;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.07);color:var(--ink2)}
+.opt .votes i:hover{background:var(--sky);color:#fff}
+.mcq.revealed .opt{opacity:.45}
+.mcq.revealed .opt.correct{opacity:1;border-color:var(--green);background:rgba(63,214,138,.14)}
+.mcq.revealed .opt.correct .k{background:var(--green);color:#04210f}
+.mcq.revealed .opt.chosen:not(.correct){opacity:.9;border-color:var(--blood);background:rgba(232,54,79,.12)}
+.explain{margin-top:22px;opacity:0;transform:translateY(10px);transition:all .4s;font-size:21px}
+.mcq.revealed .explain{opacity:1;transform:none}
+.btn{font:700 17px var(--sans);letter-spacing:.04em;padding:12px 20px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink)}
+.btn:hover{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.primary{background:var(--blood);border-color:var(--blood);color:#fff}
+.btn.primary:hover{filter:brightness(1.1)}
+.btnrow{display:flex;gap:12px;margin-top:18px;align-items:center}
+
+/* flip cards (Myth or Fact) */
+.flip{perspective:1200px;height:220px;cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .fa,.flip .fb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;padding:22px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line)}
+.flip .fa{background:linear-gradient(160deg,var(--panel2),var(--panel))}
+.flip .fb{transform:rotateY(180deg)}
+.flip .fb.myth{background:linear-gradient(160deg,rgba(232,54,79,.30),rgba(232,54,79,.10));border-color:rgba(232,54,79,.5)}
+.flip .fb.fact{background:linear-gradient(160deg,rgba(63,214,138,.25),rgba(63,214,138,.08));border-color:rgba(63,214,138,.5)}
+.flip .fa p{font:600 23px/1.35 var(--sans);color:var(--ink)}
+.flip .fb p{font-size:19px;color:var(--ink)}
+.flip .verdict{font:800 26px var(--sans);letter-spacing:.12em;margin-bottom:8px}
+.flip .hint{font-size:14px;color:var(--muted);margin-top:12px;letter-spacing:.08em;text-transform:uppercase}
+
+/* checklist */
+.check{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:14px;cursor:pointer;transition:background .2s;user-select:none}
+.check:hover{background:rgba(255,255,255,.05)}
+.check .box{flex:none;width:30px;height:30px;border-radius:9px;border:2px solid var(--muted);display:grid;place-items:center;margin-top:2px;transition:all .2s}
+.check.on .box{background:var(--green);border-color:var(--green)}
+.check.on .box::after{content:"✓";color:#04210f;font-weight:800;font-size:20px}
+.check .lbl{font-size:21px;color:var(--ink2);line-height:1.35}
+.check.on .lbl{color:var(--ink)}
+.progressbar{height:12px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.progressbar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--oxy),var(--green));transition:width .4s}
+
+/* reveal step buttons in cases */
+.step{opacity:.0;transform:translateY(10px);transition:all .45s}
+.step.on{opacity:1;transform:none}
+
+/* hotspot body map */
+.hot{cursor:pointer}
+.hot circle.pulse{animation:pulse 2s infinite;transform-origin:center;transform-box:fill-box}
+@keyframes pulse{0%{opacity:.8;transform:scale(1)}70%{opacity:0;transform:scale(2.3)}100%{opacity:0}}
+.hot.sel circle.core{fill:var(--gold)}
+.infobox{min-height:240px}
+
+/* bars */
+.bar{display:grid;grid-template-columns:330px 1fr 90px;align-items:center;gap:18px;margin:14px 0}
+.bar .lab{font:600 21px var(--sans);color:var(--ink)}
+.bar .track{height:30px;border-radius:9px;background:rgba(255,255,255,.06);overflow:hidden}
+.bar .val{height:100%;width:0;border-radius:9px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.slide.active .bar .val{width:var(--w)}
+.bar .pct{font:600 20px var(--mono);color:var(--muted);text-align:right}
+
+/* timeline */
+.tl{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:30px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:34px;height:3px;background:linear-gradient(90deg,var(--oxy),var(--violet),var(--blood))}
+.tl .ev{position:relative;padding-top:66px}
+.tl .ev::before{content:"";position:absolute;top:24px;left:0;width:22px;height:22px;border-radius:50%;background:var(--bg);border:4px solid var(--gold)}
+.tl .yr{font:700 19px var(--mono);color:var(--gold)}
+.tl .nm{font:800 24px var(--sans);color:var(--ink);margin:4px 0 6px}
+.tl p{font-size:17px;line-height:1.4}
+
+/* flow diagram */
+.flow{display:flex;flex-direction:column;gap:14px}
+.node{border-radius:16px;padding:16px 20px;border:1.5px solid var(--line);background:rgba(255,255,255,.04)}
+.node h3{font-size:21px;margin-bottom:4px}
+.node p{font-size:18px}
+.arrow{text-align:center;color:var(--muted);font-size:24px;line-height:1}
+
+/* scoreboard */
+.score{display:flex;gap:16px;align-items:stretch}
+.team{flex:1;border-radius:18px;padding:14px 18px;border:1px solid var(--line);background:rgba(255,255,255,.04);display:flex;align-items:center;gap:14px}
+.team .nm{font:700 18px var(--sans);flex:1}
+.team .pts{font:700 34px/1 var(--mono);min-width:48px;text-align:center}
+.team button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);font:700 20px var(--sans)}
+.team button:hover{background:var(--sky);color:#fff}
+
+/* title slide */
+.title-slide{justify-content:center}
+.title-slide .eyebrow{font:600 17px var(--sans);letter-spacing:.2em;white-space:nowrap;text-transform:uppercase;color:var(--oxy2);margin-bottom:28px}
+.title-slide .meta{margin-top:40px;display:flex;gap:46px;align-items:flex-end}
+.title-slide .meta div{font-size:20px;color:var(--muted)}
+.title-slide .meta b{display:block;font-size:24px;color:var(--ink);margin-top:4px}
+[contenteditable]{outline:none;border-radius:6px}
+[contenteditable]:hover{box-shadow:0 0 0 2px rgba(74,163,255,.35)}
+.section-slide{justify-content:center}
+.section-slide .num{font:400 220px/0.9 var(--serif);color:transparent;-webkit-text-stroke:2px rgba(232,54,79,.55)}
+.section-slide h1{margin-top:10px}
+
+/* SVG animation helpers */
+.flowline{stroke-dasharray:8 14;animation:dash 1.6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-44}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.beat{animation:beat 1.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.06)}30%{transform:scale(1)}}
+.drip{animation:drip 2.4s ease-in infinite}
+@keyframes drip{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(60px);opacity:0}}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400}
+.slide.active .draw{animation:drawin 2.2s .3s ease forwards}
+@keyframes drawin{to{stroke-dashoffset:0}}
+.pop{opacity:0}
+.slide.active .pop{animation:popin .5s ease forwards}
+@keyframes popin{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   APP CHROME (progress, HUD, overview, notes, presenter)
+   ============================================================ */
+#progress{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--oxy),var(--blood));z-index:50;transition:width .4s}
+#hud{position:fixed;right:14px;bottom:12px;z-index:60;display:flex;gap:8px;opacity:.0;transition:opacity .3s}
+body:hover #hud{opacity:1}
+#hud button{background:rgba(15,26,48,.85);color:#cfe0ff;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 12px;font:600 13px var(--sans);backdrop-filter:blur(8px)}
+#hud button:hover{background:#2a4d8f}
+#timer{position:fixed;left:14px;bottom:12px;z-index:60;font:600 15px var(--mono);color:#cfe0ff;background:rgba(15,26,48,.85);border:1px solid rgba(255,255,255,.15);padding:7px 12px;border-radius:10px;display:none}
+#timer.show{display:block}
+#help{position:fixed;inset:0;z-index:80;background:rgba(3,7,14,.82);display:none;place-items:center;backdrop-filter:blur(6px)}
+#help.show{display:grid}
+#help .box{background:#0f1a30;color:#e9eef7;border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:34px 40px;min-width:560px;box-shadow:var(--shadow)}
+#help h3{font:400 34px var(--serif);margin-bottom:16px}
+#help table{border-collapse:collapse;font-size:17px}
+#help td{padding:7px 14px;color:#c9d5ea}
+#help td:first-child{font-family:var(--mono);color:var(--gold);text-align:right}
+#notesPanel{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;z-index:70;background:rgba(9,15,28,.96);color:#e9eef7;border-top:2px solid var(--gold);padding:18px 28px 22px;transform:translateY(100%);transition:transform .35s;font-size:18px;line-height:1.5}
+#notesPanel.show{transform:none}
+#notesPanel h5{font:700 13px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+#notesPanel p, #notesPanel li{font-size:18px;color:#d5def0}
+#notesPanel ul{padding-left:22px}
+#overview{position:fixed;inset:0;z-index:75;background:rgba(3,7,14,.94);display:none;overflow:auto;padding:30px}
+#overview.show{display:block}
+#overview .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+#overview .th{background:#0f1a30;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px;color:#e9eef7;cursor:pointer;min-height:96px;text-align:left}
+#overview .th:hover,#overview .th.cur{border-color:var(--gold)}
+#overview .th small{display:block;font:600 12px var(--mono);color:var(--gold);margin-bottom:6px}
+#overview .th span{font:600 16px/1.35 var(--sans)}
+#blackout{position:fixed;inset:0;background:#000;z-index:90;display:none}
+#blackout.show{display:block}
+
+/* Presenter window */
+body.presenter #viewport{right:38%;bottom:30%}
+body.presenter #presenterPane{display:grid}
+#presenterPane{display:none;position:fixed;z-index:65;background:#08101e;color:#e9eef7;font-family:var(--sans);
+  grid-template-columns:1fr;gap:0}
+body.presenter #presenterPane{inset:0 0 0 62%;border-left:1px solid rgba(255,255,255,.12);padding:22px 26px;overflow:auto;align-content:start;gap:16px}
+#presenterPane .clock{font:600 48px var(--mono);color:var(--gold)}
+#presenterPane .sub{font:600 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#8fa3c4}
+#presenterPane .pn{font-size:19px;line-height:1.55;color:#d5def0}
+#presenterPane .pn ul{padding-left:22px}
+#presenterPane .nx{font:600 18px var(--sans);color:#fff;background:#0f1a30;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px}
+#presenterBottom{display:none}
+body.presenter #presenterBottom{display:flex;position:fixed;left:0;right:38%;bottom:0;height:30%;z-index:65;background:#08101e;border-top:1px solid rgba(255,255,255,.12);padding:16px 22px;gap:16px;align-items:center;justify-content:center;color:#cfe0ff}
+#presenterBottom button{font:700 18px var(--sans);padding:16px 26px;border-radius:14px;border:1px solid rgba(255,255,255,.15);background:#14213b;color:#e9eef7}
+#presenterBottom button:hover{background:#2a4d8f}
+
+@media print{
+  html,body{overflow:visible;background:#fff}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;width:1600px;height:auto}
+  .slide{position:relative;opacity:1;visibility:visible;transform:none;page-break-after:always;height:900px}
+  .f,.step{opacity:1;transform:none}
+  #hud,#progress,#timer{display:none}
+}
+@page{size:1600px 900px;margin:0}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="viewport"><div id="stage">
+
+<!-- ============================================================
+     1. TITLE
+     ============================================================ -->
+<section class="slide title-slide" data-title="Title" data-section="Welcome">
+  <div style="position:absolute;right:40px;top:30px;width:640px;height:840px" class="float">
+    <svg viewBox="0 0 640 820" aria-label="Illustration of lungs and kidneys linked by capillaries">
+      <defs>
+        <radialGradient id="lungG" cx="50%" cy="35%" r="70%">
+          <stop offset="0" stop-color="#ff9fae"/><stop offset=".55" stop-color="#e8364f"/><stop offset="1" stop-color="#6d0c1d"/>
+        </radialGradient>
+        <linearGradient id="kidG" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#b8344a"/><stop offset="1" stop-color="#4f0a17"/>
+        </linearGradient>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="soft"><feGaussianBlur stdDeviation="5"/></filter>
+      </defs>
+      <!-- aura -->
+      <circle cx="320" cy="250" r="230" fill="#e8364f" opacity=".08" filter="url(#soft)"/>
+      <circle cx="320" cy="640" r="200" fill="#22c3b5" opacity=".07" filter="url(#soft)"/>
+      <g transform="translate(120,20)">
+        <!-- trachea -->
+        <rect x="190" y="0" width="20" height="96" rx="8" fill="#f3c1c9" opacity=".9"/>
+        <g stroke="#b34155" stroke-width="2" opacity=".6"><line x1="190" y1="14" x2="210" y2="14"/><line x1="190" y1="28" x2="210" y2="28"/><line x1="190" y1="42" x2="210" y2="42"/><line x1="190" y1="56" x2="210" y2="56"/><line x1="190" y1="70" x2="210" y2="70"/></g>
+        <!-- lungs -->
+        <path d="M185 95 C140 78 92 122 74 196 C56 272 54 352 72 386 C98 414 162 408 184 380 C194 340 194 214 185 95Z" fill="url(#lungG)" opacity=".95"/>
+        <path d="M215 95 C262 78 310 122 328 196 C346 272 348 352 330 386 C304 414 240 408 218 380 C214 352 234 330 228 306 C210 296 210 214 215 95Z" fill="url(#lungG)" opacity=".95"/>
+        <!-- bronchial tree -->
+        <g fill="none" stroke="#ffd7dd" stroke-linecap="round" opacity=".8">
+          <path d="M200 92 C190 110 175 120 160 140 M160 140 C150 170 130 190 115 230 M160 140 C165 180 160 220 150 270 M115 230 C100 260 98 300 100 340 M150 270 C140 300 140 330 145 360 M115 230 C130 250 140 255 150 270" stroke-width="5"/>
+          <path d="M200 92 C210 110 225 120 240 140 M240 140 C250 170 270 190 285 230 M240 140 C235 180 240 220 250 270 M285 230 C300 260 302 300 300 340 M250 270 C260 300 262 330 258 360" stroke-width="5"/>
+          <path d="M130 190 l-22 10 M120 260 l-20 4 M140 320 l-22 10 M270 190 l22 10 M280 260 l20 4 M262 320 l22 10 M105 300 l-14 16 M295 300 l14 16" stroke-width="3"/>
+        </g>
+        <!-- haemorrhage blooms -->
+        <g filter="url(#soft)" fill="#5a0010" opacity=".75">
+          <circle cx="120" cy="250" r="22"/><circle cx="150" cy="320" r="18"/><circle cx="105" cy="330" r="14"/>
+          <circle cx="280" cy="250" r="24"/><circle cx="258" cy="330" r="16"/><circle cx="296" cy="312" r="12"/>
+        </g>
+      </g>
+      <!-- capillary connections -->
+      <g fill="none" stroke-width="3" stroke-linecap="round">
+        <path class="flowline" d="M250 400 C230 470 210 500 215 560" stroke="#ff7085"/>
+        <path class="flowline" d="M390 400 C410 470 430 500 425 560" stroke="#ff7085"/>
+        <path class="flowline" d="M320 400 C320 470 300 520 260 580" stroke="#7debe0" opacity=".8"/>
+        <path class="flowline" d="M320 400 C320 470 340 520 380 580" stroke="#7debe0" opacity=".8"/>
+      </g>
+      <!-- kidneys -->
+      <g transform="translate(150,560)"><g class="beat">
+        <path d="M70 0 C20 0 0 50 2 95 C4 140 35 172 72 168 C95 165 102 145 92 128 C82 112 80 75 92 58 C105 40 110 0 70 0Z" fill="url(#kidG)"/>
+        <path d="M58 30 C30 40 24 80 30 112 C34 136 52 150 66 146" fill="none" stroke="#ff9fae" stroke-width="2" opacity=".6"/>
+        <g fill="none" stroke="#ffd7dd" stroke-width="2" opacity=".85"><circle cx="40" cy="60" r="8"/><circle cx="34" cy="96" r="8"/><circle cx="48" cy="128" r="8"/></g>
+        <path d="M95 95 C120 110 130 160 128 230" stroke="#e8a3ad" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </g></g>
+      <g transform="translate(490,560) scale(-1,1)"><g class="beat">
+        <path d="M70 0 C20 0 0 50 2 95 C4 140 35 172 72 168 C95 165 102 145 92 128 C82 112 80 75 92 58 C105 40 110 0 70 0Z" fill="url(#kidG)"/>
+        <path d="M58 30 C30 40 24 80 30 112 C34 136 52 150 66 146" fill="none" stroke="#ff9fae" stroke-width="2" opacity=".6"/>
+        <g fill="none" stroke="#ffd7dd" stroke-width="2" opacity=".85"><circle cx="40" cy="60" r="8"/><circle cx="34" cy="96" r="8"/><circle cx="48" cy="128" r="8"/></g>
+        <path d="M95 95 C120 110 130 160 128 230" stroke="#e8a3ad" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </g></g>
+      <!-- droplets -->
+      <g fill="#ff7085">
+        <path class="drip" d="M320 470 c-6 10 -9 15 -9 20 a9 9 0 0 0 18 0 c0 -5 -3 -10 -9 -20z"/>
+      </g>
+      <text x="320" y="810" text-anchor="middle" fill="#8fa3c4" font-family="Plus Jakarta Sans" font-size="16" letter-spacing="4">SAME CAPILLARIES · SAME ENEMY</text>
+    </svg>
+  </div>
+  <div style="max-width:900px">
+    <div class="eyebrow">Respiratory Medicine · Calderdale Royal Hospital</div>
+    <h1>Pulmonary–Renal<br><em>Syndrome</em></h1>
+    <p class="lead mt" style="max-width:820px">When the lungs and the kidneys start bleeding at the same time — how to spot it, prove it and treat it before the crescents set.</p>
+    <div class="meta">
+      <div>Presenter<b contenteditable="true" spellcheck="false">Dr [Your Name], IMT2</b></div>
+      <div>Supervisor<b contenteditable="true" spellcheck="false">Dr [Consultant]</b></div>
+      <div>Date<b contenteditable="true" spellcheck="false">[Date]</b></div>
+    </div>
+    <p class="tiny mt2">Press <b>?</b> for controls · <b>P</b> for presenter view · Click a name above to edit it</p>
+  </div>
+  <aside class="notes">
+    <p><b>Timing: 0:00–1:00.</b> Welcome everyone. Introduce yourself and your supervisor.</p>
+    <p>Opening line: "Today is about two organs that share a blood supply problem — and a rare condition where missing the diagnosis by 48 hours can cost someone their kidneys or their life."</p>
+    <p>Tip: the names on this slide are editable — click and type before the talk starts.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     2. GROUND RULES + AGENDA
+     ============================================================ -->
+<section class="slide" data-title="How this session works" data-section="Welcome">
+  <div class="chrome-top"><span class="chip teal">Before we start</span><span class="timechip">~2 min</span></div>
+  <h2>How this session <em>works</em></h2>
+  <div class="grid3">
+    <div class="card teal f">
+      <div class="icon">✋</div>
+      <h3>It's interactive</h3>
+      <p>Expect questions, votes and cases. Hands up, shout out, or look intensely at the floor — all valid.</p>
+    </div>
+    <div class="card red f">
+      <div class="icon">⚔️</div>
+      <h3>Two teams</h3>
+      <p>Left side of the room is <b class="teal">Team Alveolus</b>. Right side is <b class="red">Team Glomerulus</b>. Points go on the board. The prize is bragging rights.</p>
+    </div>
+    <div class="card gold f">
+      <div class="icon">🧠</div>
+      <h3>Every grade welcome</h3>
+      <p>FYs and CTs: recognise and escalate. SpRs: work it up. Consultants: we'll argue about plasma exchange at the end.</p>
+    </div>
+  </div>
+  <div class="card mt2 f" style="padding:20px 26px">
+    <h4>Agenda · about 55 minutes + questions · press S for the 45-minute version</h4>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;font-size:18px">
+      <div><b class="teal">01</b> Case &amp; basics<br><span class="muted">15 min</span></div>
+      <div><b class="teal">02</b> Pathophysiology<br><span class="muted">6 min</span></div>
+      <div><b class="teal">03</b> Recognition<br><span class="muted">17 min</span></div>
+      <div><b class="teal">04</b> Management<br><span class="muted">11 min</span></div>
+      <div><b class="teal">05</b> Quiz showdown<br><span class="muted">4 min</span></div>
+      <div><b class="teal">06</b> Take-homes<br><span class="muted">2 min</span></div>
+    </div>
+  </div>
+  <p class="joke mt f">⚠️ No patients were harmed in making this talk. Several kidneys were mildly inconvenienced.</p>
+  <aside class="notes">
+    <p><b>1:00–3:00.</b> Split the room physically: left = Team Alveolus, right = Team Glomerulus. Point at each side — it gets energy up straight away.</p>
+    <p>Reassure juniors: there are no wrong answers in the votes. "Consultants may be asked to answer first — for transparency."</p>
+    <p>The scoreboard keeps its score across slides (stored in the browser). Press <b>R</b> on a quiz slide to reset it.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     3. OBJECTIVES
+     ============================================================ -->
+<section class="slide" data-title="Learning objectives" data-section="Welcome">
+  <div class="chrome-top"><span class="chip teal">Objectives</span><span class="timechip">~1 min</span></div>
+  <h2>By the end, you'll be able to…</h2>
+  <div class="g-6-4 fill">
+    <ul class="clean teal" style="margin-top:6px">
+      <li class="f"><b>Define</b> pulmonary–renal syndrome and name its main causes</li>
+      <li class="f"><b>Explain</b> why the lung and the glomerulus are hit together</li>
+      <li class="f"><b>Recognise</b> diffuse alveolar haemorrhage, even without haemoptysis</li>
+      <li class="f"><b>Send</b> the right first-line tests within the first hour</li>
+      <li class="f"><b>Outline</b> induction treatment, and where the evidence stands (RAVE, PEXIVAS, ADVOCATE, KDIGO 2024)</li>
+      <li class="f"><b>Know</b> who to call, and when</li>
+    </ul>
+    <div class="flow f">
+      <div class="node" style="border-color:rgba(34,195,181,.5)"><h3 class="teal">FY &amp; CT</h3><p>Spot it. Dip the urine. Escalate early.</p></div>
+      <div class="node" style="border-color:rgba(74,163,255,.5)"><h3 class="sky">IMT &amp; Respiratory SpR</h3><p>Work it up: KCO, BAL, serology. Coordinate with renal and ICU.</p></div>
+      <div class="node" style="border-color:rgba(245,184,64,.5)"><h3 class="gold">Consultants</h3><p>The trial data, the guideline differences, and a live debate.</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>3:00–4:00.</b> Read the objectives quickly. Point out the tiered goals on the right so every grade knows what they'll take away.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     4. ICEBREAKER POLL
+     ============================================================ -->
+<section class="slide" data-title="Icebreaker vote" data-section="Welcome">
+  <div class="chrome-top"><span class="chip gold">Warm-up vote</span><span class="timechip">~2 min</span></div>
+  <div class="mcq" data-answer="1">
+    <div class="q">A 60-year-old with "pneumonia" is no better after two courses of antibiotics. Hb has dropped by 40 g/L and creatinine has tripled.<br><span class="gold">Which single bedside test do you want right now?</span></div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>Repeat chest X-ray<span class="votes"><i data-d="-1">−</i><span>0</span><i data-d="1">+</i></span></button>
+      <button class="opt"><span class="k">B</span>Urine dipstick<span class="votes"><i data-d="-1">−</i><span>0</span><i data-d="1">+</i></span></button>
+      <button class="opt"><span class="k">C</span>Sputum culture<span class="votes"><i data-d="-1">−</i><span>0</span><i data-d="1">+</i></span></button>
+      <button class="opt"><span class="k">D</span>D-dimer<span class="votes"><i data-d="-1">−</i><span>0</span><i data-d="1">+</i></span></button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button><span class="tiny">Use the − / + buttons to record a show of hands</span></div>
+    <div class="explain callout teal"><b>B: the humble dipstick.</b> It takes 30 seconds and costs pennies. Blood and protein in someone with AKI means <b>glomerulonephritis until proven otherwise</b>. Add a falling Hb and lung shadowing, and you're looking at pulmonary–renal syndrome.<br><span class="joke" style="margin-top:12px">🧪 The urine dipstick: ignored more often than the fire safety e-learning.</span></div>
+  </div>
+  <aside class="notes">
+    <p><b>4:00–6:00.</b> Take a show of hands for each option and record the counts with +/−. Then reveal.</p>
+    <p>Point to make: on ward rounds, this test is often "pending" for 48 hours. Ask: "Hands up if you've seen a patient with AKI whose urine wasn't dipped on day one?"</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     5. CASE 1 — PRESENTATION
+     ============================================================ -->
+<section class="slide" data-title="Case 1: Meet Mr D" data-section="Case">
+  <div class="chrome-top"><span class="chip">Case 1</span><span class="timechip">~2 min</span></div>
+  <h2>Meet <em>Mr D</em>, 58</h2>
+  <div class="g-4-6 fill">
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <svg viewBox="0 0 260 260" width="230" height="230" aria-label="Patient avatar">
+        <defs><linearGradient id="av" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a3d63"/><stop offset="1" stop-color="#14213b"/></linearGradient></defs>
+        <circle cx="130" cy="130" r="124" fill="url(#av)" stroke="rgba(255,255,255,.15)" stroke-width="2"/>
+        <path d="M50 236 C60 180 95 160 130 160 C165 160 200 180 210 236Z" fill="#4a6fa5"/>
+        <path d="M112 160 L130 186 L148 160Z" fill="#dfe8f5"/>
+        <circle cx="130" cy="108" r="44" fill="#f2c9a8"/>
+        <path d="M86 100 C88 70 110 58 132 60 C158 60 176 76 174 102 C166 88 150 84 132 84 C112 84 96 90 86 100Z" fill="#b9b9b9"/>
+        <circle cx="114" cy="110" r="4" fill="#1d2b44"/><circle cx="146" cy="110" r="4" fill="#1d2b44"/>
+        <path d="M118 132 C126 128 134 128 142 132" stroke="#8a4b3a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M128 116 C126 122 128 124 132 124" stroke="#c99a7e" stroke-width="2" fill="none"/>
+        <!-- tissue with blood -->
+        <g transform="translate(178,150) rotate(12)"><rect width="46" height="40" rx="6" fill="#fff"/><circle cx="24" cy="20" r="7" fill="#e8364f"/></g>
+      </svg>
+      <p class="small mt" style="text-align:center"><b>Retired joiner, Sowerby Bridge</b><br>Ex-smoker (20 pack-years) · hypertension · amlodipine</p>
+      <p class="tiny">Fictional case for teaching</p>
+    </div>
+    <div>
+      <h4>The story so far</h4>
+      <div class="flow">
+        <div class="node f"><h3 class="gold">6 weeks ago</h3><p>Blocked nose, crusting, recurrent nosebleeds. Put down to hay fever.</p></div>
+        <div class="node f"><h3 class="gold">3 weeks ago</h3><p>Cough and fatigue. GP gave amoxicillin. Some joint aches.</p></div>
+        <div class="node f"><h3 class="gold">1 week ago</h3><p>Second GP visit, doxycycline. Now blood-streaked sputum and night sweats.</p></div>
+        <div class="node f" style="border-color:rgba(232,54,79,.6)"><h3 class="red">Today, via ED</h3><p>Breathless at rest, ankle swelling, "passing less water". Referred to the medical take as a "non-resolving LRTI".</p></div>
+      </div>
+      <div class="callout mt f"><b>Room vote:</b> top three differentials? Shout them out.</div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>6:00–8:00.</b> Reveal the timeline step by step. Pause at "Today" and collect differentials from the room. Write them down if there's a whiteboard.</p>
+    <p>Expected answers: pneumonia with sepsis/AKI, malignancy, TB, heart failure, PE. Praise anyone who says vasculitis, and ask them what made them think of it (the ENT symptoms).</p>
+    <p>Teaching point: <b>upper airway symptoms + "non-resolving chest infection" + systemic symptoms</b> should make you think of GPA.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     6. CASE 1 — DATA
+     ============================================================ -->
+<section class="slide" data-title="Case 1: Obs and bloods" data-section="Case">
+  <div class="chrome-top"><span class="chip">Case 1</span><span class="timechip">~2 min</span></div>
+  <h2>The numbers <em>don't lie</em></h2>
+  <div class="grid2 fill">
+    <div>
+      <div class="card f" style="padding:18px 24px">
+        <h4>Observations</h4>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center">
+          <div><div class="mono red" style="font-size:30px">28</div><div class="tiny">RR</div></div>
+          <div><div class="mono red" style="font-size:30px">88%</div><div class="tiny">SpO₂ (air)</div></div>
+          <div><div class="mono gold" style="font-size:30px">112</div><div class="tiny">HR</div></div>
+          <div><div class="mono gold" style="font-size:30px">162/94</div><div class="tiny">BP</div></div>
+          <div><div class="mono" style="font-size:30px">37.6</div><div class="tiny">Temp °C</div></div>
+        </div>
+      </div>
+      <div class="card mt f" style="padding:16px 24px">
+        <h4>Bloods</h4>
+        <table class="t" style="font-size:19px">
+          <tr><td>Hb</td><td><span class="red">82 g/L</span> <span class="muted">(128 three weeks ago)</span></td><td>WCC</td><td>13.8</td></tr>
+          <tr><td>Creatinine</td><td><span class="red">412 µmol/L</span> <span class="muted">(84 last year)</span></td><td>K⁺</td><td class="red">5.9</td></tr>
+          <tr><td>Urea</td><td>24.1</td><td>CRP</td><td>156</td></tr>
+          <tr><td>Albumin</td><td>29</td><td>Plt</td><td>412</td></tr>
+        </table>
+      </div>
+      <div class="card red mt f" style="padding:16px 24px">
+        <h4 class="red">Urine dipstick (finally!)</h4>
+        <p style="font-size:24px"><b>Blood 3+ · Protein 2+</b> · Leucocytes 1+ · Nitrites negative</p>
+      </div>
+    </div>
+    <div class="img f" style="padding:18px 22px">
+      <h4 style="margin-bottom:4px">Trajectory</h4>
+      <svg viewBox="0 0 640 520" aria-label="Chart of creatinine rising and haemoglobin falling">
+        <defs><linearGradient id="crF" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e8364f" stop-opacity=".35"/><stop offset="1" stop-color="#e8364f" stop-opacity="0"/></linearGradient></defs>
+        <g stroke="rgba(255,255,255,.08)"><line x1="70" y1="40" x2="610" y2="40"/><line x1="70" y1="120" x2="610" y2="120"/><line x1="70" y1="200" x2="610" y2="200"/><line x1="70" y1="280" x2="610" y2="280"/></g>
+        <text x="20" y="30" fill="#ff7085" font-family="Plus Jakarta Sans" font-size="16" font-weight="700">Creatinine µmol/L</text>
+        <g fill="#8fa3c4" font-family="JetBrains Mono" font-size="13" text-anchor="end"><text x="62" y="44">600</text><text x="62" y="124">400</text><text x="62" y="204">200</text><text x="62" y="284">0</text></g>
+        <path d="M100 246 L250 242 L400 115 L500 93 L590 68 L590 280 L100 280Z" fill="url(#crF)"/>
+        <path class="draw" d="M100 246 L250 242 L400 115 L500 93 L590 68" fill="none" stroke="#ff7085" stroke-width="4" stroke-linejoin="round"/>
+        <g fill="#ff7085"><circle cx="100" cy="246" r="6"/><circle cx="250" cy="242" r="6"/><circle cx="400" cy="115" r="7"/><circle cx="500" cy="93" r="6"/></g>
+        <circle cx="590" cy="68" r="6" fill="none" stroke="#ff7085" stroke-width="2" stroke-dasharray="3 3"/>
+        <g fill="#eef3fb" font-family="JetBrains Mono" font-size="14" text-anchor="middle"><text x="100" y="232">84</text><text x="250" y="228">96</text><text x="400" y="100">412</text><text x="500" y="78">468</text><text x="590" y="54" fill="#ff7085">531?</text></g>
+        <!-- Hb panel -->
+        <text x="20" y="330" fill="#7debe0" font-family="Plus Jakarta Sans" font-size="16" font-weight="700">Haemoglobin g/L</text>
+        <g stroke="rgba(255,255,255,.08)"><line x1="70" y1="350" x2="610" y2="350"/><line x1="70" y1="410" x2="610" y2="410"/><line x1="70" y1="470" x2="610" y2="470"/></g>
+        <g fill="#8fa3c4" font-family="JetBrains Mono" font-size="13" text-anchor="end"><text x="62" y="354">140</text><text x="62" y="414">100</text><text x="62" y="474">60</text></g>
+        <path class="draw" d="M250 368 L400 437 L500 452" fill="none" stroke="#7debe0" stroke-width="4"/>
+        <g fill="#7debe0"><circle cx="250" cy="368" r="6"/><circle cx="400" cy="437" r="7"/><circle cx="500" cy="452" r="6"/></g>
+        <g fill="#eef3fb" font-family="JetBrains Mono" font-size="14" text-anchor="middle"><text x="250" y="356">128</text><text x="400" y="425">82</text><text x="500" y="440">71</text></g>
+        <g fill="#8fa3c4" font-family="Plus Jakarta Sans" font-size="14" text-anchor="middle"><text x="100" y="505">−12 mo</text><text x="250" y="505">−3 wk</text><text x="400" y="505">Day 0</text><text x="500" y="505">Day 1</text><text x="590" y="505">Day 2?</text></g>
+      </svg>
+      <p class="caption">Hb falling with no GI bleed and no haemolysis. Where is the blood going?</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>8:00–10:00.</b> Build the slide up. Ask the room: "Where is the blood going?" Answer: into the alveoli. The Hb has dropped and nothing is coming out of either end.</p>
+    <p>Chest X-ray shows bilateral patchy airspace shadowing (we'll come back to imaging). Leave the case unresolved; we come back to it in section 3.</p>
+    <p>Extra point: amoxicillin and doxycycline don't cause this. Don't let a drug reaction distract you. AIN doesn't usually give 3+ blood with a falling Hb and lung shadowing.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     7. SECTION 01
+     ============================================================ -->
+<section class="slide section-slide" data-title="Section 1: The basics" data-section="Basics">
+  <div class="num">01</div>
+  <h1>Back to <em>basics</em></h1>
+  <p class="lead mt">What it is, where the name came from, and why it matters.</p>
+  <aside class="notes"><p>Section divider. Keep it moving.</p></aside>
+</section>
+
+<!-- ============================================================
+     8. DEFINITION
+     ============================================================ -->
+<section class="slide" data-title="Definition" data-section="Basics">
+  <div class="chrome-top"><span class="chip">Definition</span><span class="timechip">~2 min</span></div>
+  <h2>A syndrome, <em>not</em> a diagnosis</h2>
+  <div class="center fill" style="gap:34px">
+    <div style="display:flex;align-items:center;gap:34px">
+      <div class="card red f" style="width:420px;text-align:center">
+        <div style="font-size:64px">🫁</div>
+        <h3>Diffuse alveolar haemorrhage</h3>
+        <p class="small">Bleeding from the alveolar capillaries: the pulmonary microcirculation</p>
+      </div>
+      <div class="f" style="font:400 90px var(--serif);color:var(--muted)">+</div>
+      <div class="card teal f" style="width:420px;text-align:center">
+        <div style="font-size:64px">🫘</div>
+        <h3>Glomerulonephritis</h3>
+        <p class="small">Usually rapidly progressive (RPGN), often crescentic</p>
+      </div>
+    </div>
+    <div class="f" style="font:400 90px var(--serif);color:var(--gold);line-height:.6">=</div>
+    <div class="card gold f" style="width:900px;text-align:center;padding:22px">
+      <h3 style="font-size:32px" class="gold">Pulmonary–Renal Syndrome</h3>
+      <p class="small">A clinical picture with many causes, mostly <b>small-vessel vasculitis</b> or <b>anti-GBM disease</b>.<br>Saying "PRS" is like saying "breathless": it starts the thinking, it doesn't finish it.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>10:00–11:00.</b> Key message: PRS is a <i>pattern</i>. Your job is to name the cause, because treatment depends on it.</p>
+    <p>Optional aside: in PRS the lung bleeding is usually caused by pulmonary capillaritis. Lung tissue is rarely obtained, so most cases are confirmed on renal biopsy and serology.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     9. HISTORY
+     ============================================================ -->
+<section class="slide" data-title="A brief history" data-optional="1" data-section="Basics">
+  <div class="chrome-top"><span class="chip violet">History</span><span class="chip">⏩ optional</span><span class="timechip">~2 min</span></div>
+  <h2>A short history of <em>naming things</em></h2>
+  <div class="tl">
+    <div class="ev f"><div class="yr">1919</div><div class="nm">Goodpasture</div><p>An 18-year-old during the influenza pandemic: lung haemorrhage and glomerulonephritis. Ernest Goodpasture describes the post-mortem.</p></div>
+    <div class="ev f"><div class="yr">1958</div><div class="nm">Stanton &amp; Tange</div><p>Report nine similar cases and coin "Goodpasture's syndrome". He never asked for it.</p></div>
+    <div class="ev f"><div class="yr">1967</div><div class="nm">Lerner, Glassock &amp; Dixon</div><p>Antibodies eluted from human kidneys cause nephritis in monkeys. Anti-GBM disease is proven.</p></div>
+    <div class="ev f"><div class="yr">1982</div><div class="nm">Davies et al.</div><p>Anti-neutrophil antibodies found in necrotising GN, in Melbourne. ANCA is born.</p></div>
+    <div class="ev f"><div class="yr">1985</div><div class="nm">van der Woude</div><p>Links ANCA to Wegener's granulomatosis, now <b>GPA</b>.</p></div>
+    <div class="ev f"><div class="yr">2012</div><div class="nm">Chapel Hill</div><p>Revised nomenclature. Eponyms out, mechanisms in.</p></div>
+  </div>
+  <div class="grid2 mt2">
+    <p class="joke f">📜 Goodpasture never described the antibody. He just had the luck to have a syndrome named after him. Lesson: write up your case reports.</p>
+    <p class="callout f" style="font-size:20px">"Wegener's" was dropped (2011) after historians uncovered Friedrich Wegener's Nazi affiliations. Say <b>GPA</b>.</p>
+  </div>
+  <aside class="notes">
+    <p><b>11:00–13:00.</b> Light-hearted slide. Ask the room: "Who here still says Wegener's?" Most consultants will put a hand up. Explain why the name changed.</p>
+    <p>Terminology: "Goodpasture syndrome" = PRS of any cause (old usage); "Goodpasture disease" / anti-GBM disease = the antibody-mediated disease. Modern practice: say "anti-GBM disease".</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     10. WHY IT MATTERS
+     ============================================================ -->
+<section class="slide" data-title="Why it matters" data-section="Basics">
+  <div class="chrome-top"><span class="chip">Why it matters</span><span class="timechip">~1 min</span></div>
+  <h2>Why should we <em>care?</em></h2>
+  <div class="grid4 fill" style="align-items:stretch">
+    <div class="card f"><div class="bignum">~1/3</div><p class="mt">of patients with DAH have <b>no haemoptysis</b> at presentation</p></div>
+    <div class="card f"><div class="bignum" style="color:var(--gold);font-size:82px;white-space:nowrap">25–50%</div><p class="mt">reported mortality when <b>DAH</b> complicates ANCA vasculitis</p></div>
+    <div class="card f"><div class="bignum" style="color:var(--violet)">~80%</div><p class="mt">historic 1-year mortality of <b>untreated</b> generalised GPA (median survival about 5 months)</p></div>
+    <div class="card f"><div class="bignum teal">Days</div><p class="mt">how long active crescents take to <b>scar</b>, after which the kidney doesn't come back</p></div>
+  </div>
+  <div class="callout red mt2 f" style="font-size:28px"><b>Time is nephrons, and alveoli.</b> This is a medical emergency, on a par with sepsis or STEMI. Treatment can start before every result is back.</div>
+  <aside class="notes">
+    <p><b>13:00–14:00.</b> The "1/3 without haemoptysis" figure is the one to stress for juniors. DAH can look like pulmonary oedema or pneumonia on the CXR.</p>
+    <p>Historical mortality: Walton, BMJ 1958 (untreated Wegener's: median survival about 5 months, roughly 80% dead within a year). Cyclophosphamide and steroids changed everything (Fauci, NIH, 1970s–80s).</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     11. CAUSES — BAR CHART
+     ============================================================ -->
+<section class="slide" data-title="Causes: who's the culprit?" data-section="Basics">
+  <div class="chrome-top"><span class="chip">Aetiology</span><span class="timechip">~1 min</span></div>
+  <h2>The usual <em>suspects</em></h2>
+  <div class="g-6-4 fill">
+    <div>
+      <div class="bar"><span class="lab">ANCA-associated vasculitis</span><div class="track"><div class="val" style="--w:68%;background:linear-gradient(90deg,#e8364f,#ff7085)"></div></div><span class="pct">55–75%</span></div>
+      <div class="bar"><span class="lab">Anti-GBM disease<br><span class="tiny">including double-positive</span></span><div class="track"><div class="val" style="--w:16%;background:linear-gradient(90deg,#9b8cff,#c3b9ff)"></div></div><span class="pct">10–20%</span></div>
+      <div class="bar"><span class="lab">SLE and other immune-complex disease</span><div class="track"><div class="val" style="--w:8%;background:linear-gradient(90deg,#f5b840,#ffd67a)"></div></div><span class="pct">5–10%</span></div>
+      <div class="bar"><span class="lab">Other: APS, TMA, drugs, cryoglobulins</span><div class="track"><div class="val" style="--w:4%;background:linear-gradient(90deg,#22c3b5,#7debe0)"></div></div><span class="pct">&lt;5%</span></div>
+      <p class="tiny mt">Approximate ranges from published case series (e.g. Niles 1996; Gallagher 2002). The split varies by centre and by how thoroughly cases are worked up.</p>
+    </div>
+    <div class="card gold f">
+      <h3 class="gold">Double-positive disease</h3>
+      <p>About <b>30–40%</b> of patients with anti-GBM disease are also ANCA-positive, usually MPO.</p>
+      <p class="mt">They <b>present like anti-GBM disease</b> (aggressive) but can <b>relapse like ANCA vasculitis</b>.</p>
+      <p class="mt"><b>So always send both antibodies.</b></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>14:00–15:00.</b> AAV is by far the most common cause. The SpR point: always request ANCA <i>and</i> anti-GBM together, because double positivity changes management (it needs plasma exchange like anti-GBM, and maintenance like AAV).</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     12. CAUSES — CLASSIFICATION
+     ============================================================ -->
+<section class="slide" data-title="Causes: classification" data-section="Basics">
+  <div class="chrome-top"><span class="chip">Aetiology</span><span class="timechip">~2 min</span></div>
+  <h2>Sort the causes by <em>immunofluorescence</em></h2>
+  <div class="grid4 fill">
+    <div class="card red f">
+      <h4 class="red">Pauci-immune</h4>
+      <h3>ANCA-associated vasculitis</h3>
+      <ul class="clean small">
+        <li><b>GPA</b>: usually PR3 (c-ANCA)</li>
+        <li><b>MPA</b>: usually MPO (p-ANCA)</li>
+        <li><b>EGPA</b>: rarely causes PRS</li>
+        <li><b>Drug-induced</b>: hydralazine, propylthiouracil, levamisole-cut cocaine, minocycline</li>
+      </ul>
+    </div>
+    <div class="card violet f">
+      <h4 class="violet">Linear IgG</h4>
+      <h3>Anti-GBM disease</h3>
+      <ul class="clean small">
+        <li>Antibody against the α3 chain of type IV collagen</li>
+        <li>Lung involvement: smokers, inhaled hydrocarbons</li>
+        <li>Bimodal: young men, and older women</li>
+        <li>Also after alemtuzumab, and lithotripsy (rare)</li>
+      </ul>
+    </div>
+    <div class="card gold f">
+      <h4 class="gold">Granular immune complex</h4>
+      <h3>Immune-complex disease</h3>
+      <ul class="clean small">
+        <li><b>SLE</b>: DAH plus lupus nephritis</li>
+        <li><b>IgA vasculitis</b>: rare in adults</li>
+        <li><b>Cryoglobulinaemia</b>: think hepatitis C</li>
+        <li>Rarely post-infectious GN</li>
+      </ul>
+    </div>
+    <div class="card teal f">
+      <h4 class="teal">Other</h4>
+      <h3>Everything else</h3>
+      <ul class="clean small">
+        <li><b>Antiphospholipid syndrome</b>, including catastrophic APS</li>
+        <li><b>Thrombotic microangiopathy</b></li>
+        <li>D-penicillamine</li>
+        <li>Mimics: infection, LVF (next section)</li>
+      </ul>
+    </div>
+  </div>
+  <p class="joke mt f">💊 Take a <b>full</b> drug history, including the drugs that aren't on the GP summary. Levamisole-cut cocaine can make every ANCA test positive at once.</p>
+  <aside class="notes">
+    <p><b>15:00–17:00.</b> Frame the causes by what the renal biopsy will show. It's a neat way to remember them and links straight to the histology slide later.</p>
+    <p>Levamisole-cocaine: often very high-titre MPO, sometimes dual MPO/PR3 and anti-elastase. Look for retiform purpura on the ears.</p>
+    <p>Drug-induced AAV: stop the drug. Hydralazine is common in older patients, so check the drug chart!</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     13. SECTION 02
+     ============================================================ -->
+<section class="slide section-slide" data-title="Section 2: Pathophysiology" data-section="Pathophysiology">
+  <div class="num">02</div>
+  <h1>Why the lungs <em>and</em> the kidneys?</h1>
+  <p class="lead mt">Two capillary beds that share the same weak spot.</p>
+  <aside class="notes"><p>Section divider. 17:00.</p></aside>
+</section>
+
+<!-- ============================================================
+     14. SHARED TARGET — ALVEOLUS vs GLOMERULUS
+     ============================================================ -->
+<section class="slide" data-title="Alveolus vs glomerulus" data-section="Pathophysiology">
+  <div class="chrome-top"><span class="chip violet">Pathophysiology</span><span class="timechip">~2 min</span></div>
+  <h2>Same target, <em>different address</em></h2>
+  <div class="img fill" style="padding:10px">
+    <svg viewBox="0 0 1420 600" aria-label="Side-by-side diagram of an alveolus and a glomerulus sharing a basement membrane target">
+      <defs>
+        <radialGradient id="alvAir" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#12345c"/><stop offset="1" stop-color="#0a1c35"/></radialGradient>
+        <radialGradient id="bowman" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#0f2a3f"/><stop offset="1" stop-color="#081624"/></radialGradient>
+        <filter id="g2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <g id="rbc"><ellipse rx="11" ry="7" fill="#e8364f"/><ellipse rx="5" ry="3" fill="#b01e35"/></g>
+        <g id="ab"><path d="M0 0 L0 -12 M0 -12 L-7 -20 M0 -12 L7 -20" stroke="#f5b840" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      </defs>
+      <!-- LEFT: ALVEOLUS -->
+      <text x="280" y="44" text-anchor="middle" fill="#ff7085" font-family="DM Serif Display" font-size="34">The alveolus</text>
+      <g transform="translate(280,320)">
+        <!-- capillary ring -->
+        <circle r="215" fill="none" stroke="#7a1020" stroke-width="44" opacity=".85"/>
+        <circle r="215" fill="none" stroke="#e8364f" stroke-width="30" opacity=".6"/>
+        <!-- RBCs flowing in capillary -->
+        <g opacity=".95">
+          <use href="#rbc" x="0" y="-215"/><use href="#rbc" x="152" y="-152"/><use href="#rbc" x="215" y="0"/><use href="#rbc" x="152" y="152"/><use href="#rbc" x="0" y="215"/><use href="#rbc" x="-152" y="152"/><use href="#rbc" x="-215" y="0"/><use href="#rbc" x="-152" y="-152"/>
+        </g>
+        <!-- basement membrane -->
+        <circle r="190" fill="none" stroke="#f5b840" stroke-width="5" filter="url(#g2)"/>
+        <!-- epithelium -->
+        <circle r="182" fill="url(#alvAir)" stroke="#4aa3ff" stroke-width="5" opacity=".95"/>
+        <!-- breach + leaking RBCs -->
+        <path d="M-60 -180 L-40 -150 L-75 -130" fill="none" stroke="#ff7085" stroke-width="4"/>
+        <g class="drip" style="animation-duration:3s"><use href="#rbc" x="-50" y="-110"/></g>
+        <use href="#rbc" x="-30" y="-60"/><use href="#rbc" x="10" y="-30" transform="rotate(20)"/><use href="#rbc" x="-70" y="-20"/><use href="#rbc" x="-20" y="20"/><use href="#rbc" x="40" y="40"/><use href="#rbc" x="-50" y="70"/>
+        <!-- antibodies on BM -->
+        <use href="#ab" x="120" y="-145" transform="rotate(40 120 -145)"/><use href="#ab" x="185" y="-30" transform="rotate(80 185 -30)"/><use href="#ab" x="-180" y="60" transform="rotate(-100 -180 60)"/>
+        <text y="130" text-anchor="middle" fill="#9fb0cc" font-family="Plus Jakarta Sans" font-size="20">air space</text>
+        <text y="152" text-anchor="middle" fill="#ff7085" font-family="Plus Jakarta Sans" font-size="16">fills with blood</text>
+      </g>
+      <!-- RIGHT: GLOMERULUS -->
+      <text x="1140" y="44" text-anchor="middle" fill="#7debe0" font-family="DM Serif Display" font-size="34">The glomerulus</text>
+      <g transform="translate(1140,320)">
+        <circle r="222" fill="url(#bowman)" stroke="#7debe0" stroke-width="5"/>
+        <!-- crescent -->
+        <path d="M-150 -165 A222 222 0 0 0 -150 165 A200 200 0 0 1 -150 -165Z" fill="#2ec4b6" opacity=".25"/>
+        <path d="M-160 -150 A215 215 0 0 0 -160 150 A170 190 0 0 1 -160 -150Z" fill="#7debe0" opacity=".25"/>
+        <g fill="#7debe0" opacity=".55"><circle cx="-196" cy="-40" r="5"/><circle cx="-186" cy="20" r="5"/><circle cx="-176" cy="70" r="5"/><circle cx="-190" cy="-90" r="5"/><circle cx="-170" cy="110" r="4"/></g>
+        <!-- vascular pole -->
+        <path d="M210 -40 C260 -50 300 -60 330 -90" stroke="#e8364f" stroke-width="22" fill="none" stroke-linecap="round"/>
+        <path d="M210 40 C260 50 300 60 330 90" stroke="#b01e35" stroke-width="18" fill="none" stroke-linecap="round"/>
+        <!-- capillary tuft -->
+        <g fill="#e8364f" stroke="#f5b840" stroke-width="4" filter="url(#g2)">
+          <circle cx="40" cy="-90" r="46"/><circle cx="110" cy="-30" r="44"/><circle cx="60" cy="30" r="48"/><circle cx="120" cy="80" r="38"/><circle cx="-20" cy="-20" r="44"/><circle cx="-10" cy="80" r="42"/><circle cx="-40" cy="-110" r="34"/><circle cx="60" cy="130" r="34"/>
+        </g>
+        <g fill="#7a1020" opacity=".6"><circle cx="40" cy="-90" r="18"/><circle cx="110" cy="-30" r="16"/><circle cx="60" cy="30" r="18"/><circle cx="120" cy="80" r="14"/><circle cx="-20" cy="-20" r="16"/><circle cx="-10" cy="80" r="15"/><circle cx="-40" cy="-110" r="12"/><circle cx="60" cy="130" r="12"/></g>
+        <!-- necrosis spot -->
+        <path d="M-60 -10 l14 -14 l10 18 l16 -6 l-6 18 l-20 6z" fill="#ff7085"/>
+        <use href="#ab" x="85" y="-122" transform="rotate(-20 85 -122)"/><use href="#ab" x="160" y="-10" transform="rotate(70 160 -10)"/><use href="#ab" x="-62" y="62" transform="rotate(-120 -62 62)"/>
+        <text x="-188" y="-196" text-anchor="middle" fill="#7debe0" font-family="Plus Jakarta Sans" font-size="17">crescent</text>
+        <text x="320" y="-110" text-anchor="middle" fill="#9fb0cc" font-family="Plus Jakarta Sans" font-size="15">afferent</text>
+      </g>
+      <!-- CENTRE: shared features -->
+      <g font-family="Plus Jakarta Sans">
+        <rect x="560" y="140" width="300" height="360" rx="22" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.12)"/>
+        <text x="710" y="180" text-anchor="middle" fill="#f5b840" font-size="15" font-weight="700" letter-spacing="3">WHAT THEY SHARE</text>
+        <g font-size="19" fill="#eef3fb">
+          <text x="590" y="225">◆ Thin capillary walls</text>
+          <text x="590" y="270">◆ Basement membrane rich in</text><text x="614" y="294">type IV collagen (α3α4α5)</text>
+          <text x="590" y="339">◆ Narrow capillaries trap</text><text x="614" y="363">primed neutrophils</text>
+          <text x="590" y="408">◆ Damage → leak → bleed</text>
+        </g>
+        <line x1="580" y1="430" x2="840" y2="430" stroke="rgba(255,255,255,.12)"/>
+        <g font-size="16" fill="#9fb0cc"><text x="590" y="458"><tspan fill="#f5b840">Y</tspan> antibody   <tspan fill="#f5b840">━</tspan> basement membrane</text><text x="590" y="484"><tspan fill="#e8364f">●</tspan> red cell   <tspan fill="#7debe0">◗</tspan> crescent</text></g>
+        <path class="flowline" d="M500 320 L555 320 M865 320 L915 320" stroke="#f5b840" stroke-width="3"/>
+      </g>
+    </svg>
+  </div>
+  <aside class="notes">
+    <p><b>17:00–19:00.</b> Walk through the picture. Both organs are, in effect, a capillary wrapped around a basement membrane.</p>
+    <ul>
+      <li>Alveolus: capillary capillaritis leads to RBCs crossing into the air space, which is DAH.</li>
+      <li>Glomerulus: fibrinoid necrosis lets fibrin and cells into Bowman's space. Epithelial proliferation forms a <b>crescent</b>, which scars within days to weeks.</li>
+    </ul>
+    <p>A good question for SpRs: "Why does anti-GBM disease affect the kidney first, and only some patients' lungs?" Answer on the anti-GBM slide: glomerular endothelium is fenestrated, alveolar endothelium isn't.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     15. ANCA PATHOGENESIS
+     ============================================================ -->
+<section class="slide" data-title="How ANCA does damage" data-section="Pathophysiology">
+  <div class="chrome-top"><span class="chip violet">Pathophysiology</span><span class="timechip">~2 min</span></div>
+  <h2>ANCA: friendly fire from <em>neutrophils</em></h2>
+  <div class="img fill" style="padding:6px">
+    <svg viewBox="0 0 1420 560" aria-label="Four-step diagram of ANCA-mediated neutrophil activation and endothelial injury">
+      <defs>
+        <radialGradient id="neu" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#efe8ff"/><stop offset="1" stop-color="#b6a8f0"/></radialGradient>
+        <g id="nuc"><path d="M-18 -6 C-26 -18 -10 -26 -4 -14 C2 -26 18 -22 14 -8 C26 -4 22 12 10 10 C12 22 -4 24 -6 12 C-18 20 -28 6 -18 -6Z" fill="#5b3fb8"/></g>
+        <g id="ab2"><path d="M0 0 L0 -12 M0 -12 L-7 -20 M0 -12 L7 -20" stroke="#f5b840" stroke-width="3.5" fill="none" stroke-linecap="round"/></g>
+        <linearGradient id="endo" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e8364f"/><stop offset="1" stop-color="#7a1020"/></linearGradient>
+      </defs>
+      <!-- vessel lumen and wall -->
+      <rect x="0" y="0" width="1420" height="420" fill="#0b1a33"/>
+      <rect x="0" y="420" width="1420" height="34" fill="url(#endo)"/>
+      <g fill="#ff9fae" opacity=".55"><ellipse cx="80" cy="437" rx="40" ry="10"/><ellipse cx="200" cy="437" rx="40" ry="10"/><ellipse cx="320" cy="437" rx="40" ry="10"/><ellipse cx="440" cy="437" rx="40" ry="10"/><ellipse cx="560" cy="437" rx="40" ry="10"/><ellipse cx="680" cy="437" rx="40" ry="10"/><ellipse cx="800" cy="437" rx="40" ry="10"/><ellipse cx="920" cy="437" rx="40" ry="10"/></g>
+      <rect x="0" y="454" width="1420" height="106" fill="#140a14"/>
+      <text x="20" y="490" fill="#ff7085" font-family="Plus Jakarta Sans" font-size="16" font-weight="700" letter-spacing="2">ENDOTHELIUM</text>
+      <text x="20" y="30" fill="#4aa3ff" font-family="Plus Jakarta Sans" font-size="16" font-weight="700" letter-spacing="2">CAPILLARY LUMEN</text>
+      <!-- step dividers -->
+      <g stroke="rgba(255,255,255,.08)" stroke-dasharray="6 8"><line x1="355" y1="40" x2="355" y2="410"/><line x1="710" y1="40" x2="710" y2="410"/><line x1="1065" y1="40" x2="1065" y2="410"/></g>
+      <!-- STEP 1 priming -->
+      <g font-family="Plus Jakarta Sans">
+        <circle cx="70" cy="80" r="22" fill="#f5b840"/><text x="70" y="88" text-anchor="middle" font-weight="800" font-size="22" fill="#1a1100">1</text>
+        <text x="104" y="76" fill="#eef3fb" font-size="22" font-weight="700">Priming</text><text x="104" y="100" fill="#9fb0cc" font-size="16">infection, cytokines (TNF)</text>
+        <g transform="translate(180,250)"><circle r="62" fill="url(#neu)"/><use href="#nuc" transform="scale(1.6)"/>
+          <g fill="#e8364f"><circle cx="-56" cy="-26" r="7"/><circle cx="-30" cy="-56" r="7"/><circle cx="20" cy="-58" r="7"/><circle cx="56" cy="-22" r="7"/><circle cx="58" cy="22" r="7"/><circle cx="-58" cy="20" r="7"/></g></g>
+        <text x="180" y="355" text-anchor="middle" fill="#ff7085" font-size="17">PR3 / MPO move to the surface</text>
+        <g fill="#7debe0" font-size="15"><text x="40" y="180">TNF-α</text><text x="270" y="160">IL-8</text></g>
+        <g fill="#7debe0"><circle cx="70" cy="196" r="5"/><circle cx="90" cy="206" r="5"/><circle cx="290" cy="176" r="5"/></g>
+      </g>
+      <!-- STEP 2 ANCA binds -->
+      <g font-family="Plus Jakarta Sans">
+        <circle cx="425" cy="80" r="22" fill="#f5b840"/><text x="425" y="88" text-anchor="middle" font-weight="800" font-size="22" fill="#1a1100">2</text>
+        <text x="459" y="76" fill="#eef3fb" font-size="22" font-weight="700">ANCA binds</text><text x="459" y="100" fill="#9fb0cc" font-size="16">and cross-links Fc receptors</text>
+        <g transform="translate(535,250)"><circle r="62" fill="url(#neu)"/><use href="#nuc" transform="scale(1.6)"/>
+          <g fill="#e8364f"><circle cx="-56" cy="-26" r="7"/><circle cx="-30" cy="-56" r="7"/><circle cx="20" cy="-58" r="7"/><circle cx="56" cy="-22" r="7"/><circle cx="58" cy="22" r="7"/><circle cx="-58" cy="20" r="7"/></g>
+          <use href="#ab2" transform="translate(-66,-30) rotate(-65)"/><use href="#ab2" transform="translate(-34,-64) rotate(-28)"/><use href="#ab2" transform="translate(22,-66) rotate(18)"/><use href="#ab2" transform="translate(64,-26) rotate(66)"/><use href="#ab2" transform="translate(66,24) rotate(110)"/>
+        </g>
+        <text x="535" y="355" text-anchor="middle" fill="#f5b840" font-size="17">"Wake up and fight"</text>
+      </g>
+      <!-- STEP 3 activation + NETs + C5a -->
+      <g font-family="Plus Jakarta Sans">
+        <circle cx="780" cy="80" r="22" fill="#f5b840"/><text x="780" y="88" text-anchor="middle" font-weight="800" font-size="22" fill="#1a1100">3</text>
+        <text x="814" y="76" fill="#eef3fb" font-size="22" font-weight="700">Activation</text><text x="814" y="100" fill="#9fb0cc" font-size="16">ROS, proteases, NETs, C5a</text>
+        <g transform="translate(890,330)"><ellipse rx="78" ry="48" fill="url(#neu)"/><use href="#nuc" transform="scale(1.5)"/></g>
+        <g fill="none" stroke="#c3b9ff" stroke-width="2" opacity=".85">
+          <path d="M830 300 C800 250 760 240 740 200 M850 290 C840 230 860 200 840 160 M900 285 C920 230 960 220 990 180 M940 300 C990 280 1010 250 1040 250 M820 320 C780 320 760 300 735 300"/>
+          <path d="M760 220 L800 230 M850 200 L880 210 M960 210 L990 230 M990 260 L1010 280" stroke-width="1.5"/>
+        </g>
+        <g fill="#7debe0"><circle cx="760" cy="230" r="5"/><circle cx="1000" cy="200" r="5"/><circle cx="980" cy="270" r="5"/></g>
+        <g transform="translate(1000,140)"><rect x="-60" y="-20" width="120" height="40" rx="12" fill="rgba(34,195,181,.18)" stroke="#22c3b5"/><text y="7" text-anchor="middle" fill="#7debe0" font-size="17" font-weight="700">C5a → C5aR1</text></g>
+        <g transform="translate(1000,190)"><rect x="-58" y="-16" width="116" height="30" rx="9" fill="#f5b840"/><text y="5" text-anchor="middle" fill="#1a1100" font-size="14" font-weight="800">AVACOPAN ✕</text></g>
+        <g fill="#ff7085"><circle cx="880" cy="400" r="5"/><circle cx="900" cy="408" r="4"/><circle cx="920" cy="402" r="5"/></g>
+      </g>
+      <!-- STEP 4 injury -->
+      <g font-family="Plus Jakarta Sans">
+        <circle cx="1135" cy="80" r="22" fill="#f5b840"/><text x="1135" y="88" text-anchor="middle" font-weight="800" font-size="22" fill="#1a1100">4</text>
+        <text x="1169" y="76" fill="#eef3fb" font-size="22" font-weight="700">Capillaritis</text><text x="1169" y="100" fill="#9fb0cc" font-size="16">necrosis, leak, bleeding</text>
+        <path d="M1110 420 L1140 404 L1160 430 L1190 410 L1220 436 L1250 408 L1280 428 L1310 420 L1310 456 L1110 456Z" fill="#05080f"/>
+        <g fill="#e8364f"><ellipse cx="1170" cy="480" rx="14" ry="8"/><ellipse cx="1210" cy="500" rx="14" ry="8"/><ellipse cx="1250" cy="476" rx="14" ry="8"/><ellipse cx="1190" cy="525" rx="14" ry="8"/><ellipse cx="1280" cy="510" rx="14" ry="8"/></g>
+        <text x="1210" y="300" text-anchor="middle" fill="#ff7085" font-size="26" font-family="DM Serif Display">Lung: DAH</text>
+        <text x="1210" y="338" text-anchor="middle" fill="#7debe0" font-size="26" font-family="DM Serif Display">Kidney: crescents</text>
+      </g>
+    </svg>
+  </div>
+  <p class="joke mt f">🛡️ Neutrophils are the friendly-fire specialists of the immune system: well meaning, heavily armed, and pointing the wrong way.</p>
+  <aside class="notes">
+    <p><b>19:00–21:00.</b> Four steps:</p>
+    <ul>
+      <li><b>Priming:</b> infection or cytokines (TNF-α) move PR3/MPO to the neutrophil surface. This is why infections often trigger flares.</li>
+      <li><b>ANCA binding</b> cross-links surface antigen and Fc receptors, which fully activates the cell.</li>
+      <li><b>Activation:</b> degranulation, reactive oxygen species, NETs. The alternative complement pathway produces <b>C5a</b>, which recruits and primes more neutrophils. That is the target of <b>avacopan</b> (C5aR1 antagonist).</li>
+      <li><b>Endothelial necrosis</b> gives capillaritis: DAH in the lung, necrotising crescentic GN in the kidney.</li>
+    </ul>
+    <p>Pauci-immune means very little immunoglobulin is left in the tissue on immunofluorescence, even though antibodies drive the disease.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     16. ANTI-GBM
+     ============================================================ -->
+<section class="slide" data-title="Anti-GBM disease: the hidden epitope" data-section="Pathophysiology">
+  <div class="chrome-top"><span class="chip violet">Pathophysiology</span><span class="timechip">~2 min</span></div>
+  <h2>Anti-GBM: the <em>hidden</em> epitope</h2>
+  <div class="g-6-4 fill">
+    <div class="img" style="padding:6px">
+      <svg viewBox="0 0 820 560" aria-label="Collagen IV network with hidden epitope exposed and antibodies binding linearly">
+        <defs>
+          <g id="hex"><polygon points="0,-18 16,-9 16,9 0,18 -16,9 -16,-9" fill="#9b8cff" stroke="#e5e0ff" stroke-width="2"/></g>
+          <g id="hexOpen"><polygon points="0,-18 16,-9 16,9 0,18 -16,9 -16,-9" fill="#f5b840" stroke="#fff3cf" stroke-width="2"/><circle r="5" fill="#7a1020"/></g>
+          <g id="ab3"><path d="M0 0 L0 -14 M0 -14 L-8 -24 M0 -14 L8 -24" stroke="#ff7085" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+        </defs>
+        <!-- panel A: normal -->
+        <text x="200" y="40" text-anchor="middle" fill="#c3b9ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="20">Normal: epitope hidden</text>
+        <g stroke="#6f62c7" stroke-width="5" fill="none" stroke-linecap="round">
+          <path d="M40 120 L160 120 L280 120 L360 120"/><path d="M40 220 L160 220 L280 220 L360 220"/><path d="M40 320 L160 320 L280 320 L360 320"/>
+          <path d="M100 80 L100 360"/><path d="M220 80 L220 360"/><path d="M330 80 L330 360"/>
+          <path d="M160 120 L220 220 M280 120 L330 220 M100 220 L160 320 M220 220 L280 320" stroke-width="3" opacity=".6"/>
+        </g>
+        <g><use href="#hex" x="100" y="120"/><use href="#hex" x="220" y="120"/><use href="#hex" x="330" y="120"/><use href="#hex" x="100" y="220"/><use href="#hex" x="220" y="220"/><use href="#hex" x="330" y="220"/><use href="#hex" x="100" y="320"/><use href="#hex" x="220" y="320"/><use href="#hex" x="330" y="320"/></g>
+        <!-- arrow + triggers -->
+        <g font-family="Plus Jakarta Sans">
+          <path d="M385 220 L445 220" stroke="#f5b840" stroke-width="5" stroke-linecap="round"/><path d="M440 206 L458 220 L440 234" fill="none" stroke="#f5b840" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="420" y="270" text-anchor="middle" fill="#f5b840" font-size="15" font-weight="700">TRIGGER</text>
+        </g>
+        <!-- panel B: exposed + antibodies -->
+        <text x="630" y="40" text-anchor="middle" fill="#ff7085" font-family="Plus Jakarta Sans" font-weight="700" font-size="20">Exposed: antibodies bind</text>
+        <g stroke="#6f62c7" stroke-width="5" fill="none" stroke-linecap="round">
+          <path d="M470 120 L590 120 L710 120 L790 120"/><path d="M470 220 L590 220 L710 220 L790 220"/><path d="M470 320 L590 320 L710 320 L790 320"/>
+          <path d="M530 80 L530 360"/><path d="M650 80 L650 360"/><path d="M760 80 L760 360"/>
+        </g>
+        <g><use href="#hexOpen" x="530" y="120"/><use href="#hexOpen" x="650" y="120"/><use href="#hexOpen" x="760" y="120"/><use href="#hexOpen" x="530" y="220"/><use href="#hexOpen" x="650" y="220"/><use href="#hexOpen" x="760" y="220"/><use href="#hexOpen" x="530" y="320"/><use href="#hexOpen" x="650" y="320"/><use href="#hexOpen" x="760" y="320"/></g>
+        <g><use href="#ab3" x="530" y="100"/><use href="#ab3" x="650" y="100"/><use href="#ab3" x="760" y="100"/><use href="#ab3" x="530" y="200"/><use href="#ab3" x="650" y="200"/><use href="#ab3" x="760" y="200"/><use href="#ab3" x="530" y="300"/><use href="#ab3" x="650" y="300"/><use href="#ab3" x="760" y="300"/></g>
+        <!-- bottom: why the lungs only sometimes -->
+        <g font-family="Plus Jakarta Sans">
+          <rect x="30" y="400" width="370" height="140" rx="18" fill="rgba(34,195,181,.08)" stroke="rgba(34,195,181,.4)"/>
+          <text x="50" y="434" fill="#7debe0" font-size="19" font-weight="700">Glomerular endothelium</text>
+          <text x="50" y="462" fill="#c9d5ea" font-size="17">Fenestrated. Antibody reaches</text><text x="50" y="486" fill="#c9d5ea" font-size="17">the GBM easily, so the kidney</text><text x="50" y="510" fill="#c9d5ea" font-size="17">is hit in almost everyone.</text>
+          <rect x="420" y="400" width="370" height="140" rx="18" fill="rgba(232,54,79,.08)" stroke="rgba(232,54,79,.4)"/>
+          <text x="440" y="434" fill="#ff7085" font-size="19" font-weight="700">Alveolar endothelium</text>
+          <text x="440" y="462" fill="#c9d5ea" font-size="17">Continuous. Needs a second</text><text x="440" y="486" fill="#c9d5ea" font-size="17">hit (smoke, solvents, infection,</text><text x="440" y="510" fill="#c9d5ea" font-size="17">fluid overload) to let it in.</text>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <ul class="clean gold">
+        <li class="f">Target: the <b>NC1 domain of the α3 chain</b> of type IV collagen (and α5)</li>
+        <li class="f">The epitope is normally <b>cryptic</b>, hidden inside the NC1 hexamer</li>
+        <li class="f">Rare: about <b>1 per million per year</b>. Peaks in young men (often PRS) and in older women (often renal-limited)</li>
+        <li class="f">Lung haemorrhage is strongly linked to <b>smoking</b> and inhaled hydrocarbons</li>
+        <li class="f">Monophasic: relapse is <b>uncommon</b>, unlike AAV</li>
+      </ul>
+      <p class="joke mt f">🚬 Another reason to stop smoking: it unlocks the lung for anti-GBM antibodies.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>21:00–23:00.</b> The key concept is a hidden epitope that gets exposed. Why is the lung only sometimes involved? Glomerular capillaries are fenestrated, so circulating antibody reaches the GBM. The alveolar BM sits behind continuous endothelium and needs a second injury, classically smoking.</p>
+    <p>HLA-DR15 is strongly associated. Ask the consultants if anyone has seen a case: most will have seen only one or two in their career.</p>
+    <p>Note that relapse is rare in anti-GBM disease, so <b>no long-term maintenance</b> is needed in most cases, unless the patient is double-positive.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     17. SECTION 03
+     ============================================================ -->
+<section class="slide section-slide" data-title="Section 3: Recognition" data-section="Recognition">
+  <div class="num">03</div>
+  <h1>Spot it <em>early</em></h1>
+  <p class="lead mt">Clinical clues, imaging, BAL, urine, serology and biopsy.</p>
+  <aside class="notes"><p>Section divider. 23:00.</p></aside>
+</section>
+
+<!-- ============================================================
+     18. BODY MAP — INTERACTIVE
+     ============================================================ -->
+<section class="slide" data-title="Clinical clues: head to toe" data-section="Recognition">
+  <div class="chrome-top"><span class="chip sky">Clinical features</span><span class="timechip">~2 min</span></div>
+  <h2>Look beyond the <em>chest</em></h2>
+  <div class="g-4-6 fill">
+    <div class="img" style="padding:10px;display:flex;justify-content:center">
+      <svg viewBox="0 0 420 640" style="height:100%;width:auto" aria-label="Clickable body map of vasculitis features" class="bodymap">
+        <defs><linearGradient id="bodyG" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a3d63"/><stop offset="1" stop-color="#18284a"/></linearGradient></defs>
+        <g fill="url(#bodyG)" stroke="rgba(255,255,255,.18)" stroke-width="2">
+          <circle cx="210" cy="78" r="50"/>
+          <rect x="190" y="124" width="40" height="30" rx="10"/>
+          <path d="M120 160 C150 146 270 146 300 160 C320 170 326 200 324 240 L318 360 C316 380 300 392 280 392 L140 392 C120 392 104 380 102 360 L96 240 C94 200 100 170 120 160Z"/>
+          <path d="M106 170 C80 180 70 220 66 280 L56 400 C54 416 74 420 78 404 L100 290Z"/>
+          <path d="M314 170 C340 180 350 220 354 280 L364 400 C366 416 346 420 342 404 L320 290Z"/>
+          <path d="M146 388 L136 600 C136 620 170 622 172 602 L204 420 L216 420 L248 602 C250 622 284 620 284 600 L274 388Z"/>
+        </g>
+        <!-- lungs & kidneys ghost -->
+        <g opacity=".55"><path d="M200 180 C170 176 140 200 136 240 C132 290 140 320 160 326 C190 330 200 300 200 260Z" fill="#e8364f"/><path d="M220 180 C250 176 280 200 284 240 C288 290 280 320 260 326 C230 330 220 300 220 260Z" fill="#e8364f"/>
+        <ellipse cx="170" cy="352" rx="18" ry="26" fill="#7a1020"/><ellipse cx="250" cy="352" rx="18" ry="26" fill="#7a1020"/></g>
+        <!-- hotspots -->
+        <g class="hot" data-t="Nose and sinuses" data-c="gold" data-d="Crusting, bloody discharge, sinusitis that won't settle, septal perforation, <b>saddle-nose deformity</b>. Typical of <b>GPA</b>. Ask: 'Have you had a blocked or bleeding nose?'"><circle class="pulse" cx="210" cy="86" r="11" fill="#f5b840"/><circle class="core" cx="210" cy="86" r="9" fill="#f5b840"/></g>
+        <g class="hot" data-t="Ears" data-c="gold" data-d="Conductive hearing loss (serous otitis), sensorineural loss, chondritis. Retiform purpura on the ears suggests <b>levamisole-cocaine</b>."><circle class="pulse" cx="160" cy="80" r="10" fill="#f5b840"/><circle class="core" cx="160" cy="80" r="8" fill="#f5b840"/></g>
+        <g class="hot" data-t="Eyes" data-c="gold" data-d="Scleritis, episcleritis, conjunctivitis, orbital pseudotumour (proptosis). A red eye in a 'pneumonia' patient is a clue."><circle class="pulse" cx="232" cy="66" r="9" fill="#f5b840"/><circle class="core" cx="232" cy="66" r="7" fill="#f5b840"/></g>
+        <g class="hot" data-t="Airway" data-c="gold" data-d="<b>Subglottic stenosis</b> (stridor, often mistaken for asthma), endobronchial disease, tracheal stenosis. A respiratory problem that persists in remission."><circle class="pulse" cx="210" cy="140" r="9" fill="#f5b840"/><circle class="core" cx="210" cy="140" r="7" fill="#f5b840"/></g>
+        <g class="hot" data-t="Lungs" data-c="red" data-d="<b>DAH</b> (haemoptysis may be absent), <b>nodules and cavities</b> (GPA), <b>ILD/UIP fibrosis</b> (MPO-ANCA), pleural effusions. In EGPA: asthma, eosinophilic infiltrates."><circle class="pulse" cx="165" cy="250" r="12" fill="#e8364f"/><circle class="core" cx="165" cy="250" r="10" fill="#e8364f"/></g>
+        <g class="hot" data-t="Kidneys" data-c="red" data-d="Often <b>silent</b> until late. Haematuria, proteinuria, hypertension, oedema, oliguria. Dip every urine. Microscopy shows <b>red cell casts</b>."><circle class="pulse" cx="250" cy="352" r="12" fill="#e8364f"/><circle class="core" cx="250" cy="352" r="10" fill="#e8364f"/></g>
+        <g class="hot" data-t="Skin" data-c="teal" data-d="<b>Palpable purpura</b> (lower limbs), ulcers, nodules, livedo, nail-fold infarcts and splinter haemorrhages."><circle class="pulse" cx="262" cy="520" r="11" fill="#22c3b5"/><circle class="core" cx="262" cy="520" r="9" fill="#22c3b5"/></g>
+        <g class="hot" data-t="Nerves" data-c="teal" data-d="<b>Mononeuritis multiplex</b>: foot drop, wrist drop. Check dorsiflexion! Peripheral neuropathy is common in EGPA and MPA."><circle class="pulse" cx="156" cy="560" r="11" fill="#22c3b5"/><circle class="core" cx="156" cy="560" r="9" fill="#22c3b5"/></g>
+        <g class="hot" data-t="Joints and constitutional" data-c="teal" data-d="Arthralgia, myalgia, fevers, sweats, weight loss. Raised CRP. Often labelled 'flu', 'polymyalgia' or 'chest infection'."><circle class="pulse" cx="66" cy="380" r="11" fill="#22c3b5"/><circle class="core" cx="66" cy="380" r="9" fill="#22c3b5"/></g>
+      </svg>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card infobox" id="bodyInfo">
+        <h4 class="gold">Tap a hotspot</h4>
+        <h3 style="font-size:34px;font-family:var(--serif);font-weight:400">Vasculitis is a <em class="red" style="font-style:italic">whole-body</em> disease</h3>
+        <p class="mt">Click each glowing point to explore the clues. The lungs and kidneys are where people die. Everywhere else is where you <b>make the diagnosis</b>.</p>
+      </div>
+      <div class="callout teal"><b>Ask every "non-resolving pneumonia":</b> nose, ears, eyes, joints, rash, numbness, and what's in the urine?</div>
+      <p class="joke">👃 "Doctor, it's just my sinuses." It may well be, and those sinuses may hold the diagnosis.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>23:00–25:00.</b> Click the hotspots in turn: nose → ears → eyes → airway → lungs → kidneys → skin → nerves → joints. Or ask the audience to pick.</p>
+    <p>Respiratory-specific: subglottic stenosis in GPA is often misdiagnosed as asthma. Listen for stridor, and look for a flattened inspiratory loop on the flow-volume curve.</p>
+    <p>MPO-ANCA is associated with UIP-pattern fibrosis. Worth testing ANCA in new ILD clinic patients.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     19. DAH RECOGNITION
+     ============================================================ -->
+<section class="slide" data-title="Recognising DAH" data-section="Recognition">
+  <div class="chrome-top"><span class="chip">Diffuse alveolar haemorrhage</span><span class="timechip">~2 min</span></div>
+  <h2>The lung can hide <em>a lot</em> of blood</h2>
+  <div class="g-6-4 fill">
+    <div class="grid2" style="gap:20px;align-content:start">
+      <div class="card red f"><div class="icon">🩸</div><h3>Haemoptysis</h3><p>Ranges from streaks to frank blood. <b>Absent in about 1 in 3.</b></p></div>
+      <div class="card red f"><div class="icon">📉</div><h3>Falling Hb</h3><p>An unexplained drop, often 15–20 g/L or more, with no other source.</p></div>
+      <div class="card red f"><div class="icon">🌫️</div><h3>New infiltrates</h3><p>Bilateral, often perihilar. Can change within hours.</p></div>
+      <div class="card red f"><div class="icon">🫁</div><h3>Hypoxaemia</h3><p>Out of proportion to the CXR, or rising oxygen needs.</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card gold f">
+        <h4 class="gold">Supporting tests</h4>
+        <ul class="clean gold small">
+          <li><b>KCO raised</b> by more than 30% suggests a fresh bleed (if the patient is well enough to do the test)</li>
+          <li><b>BAL</b>: progressively bloodier aliquots, haemosiderin-laden macrophages</li>
+          <li><b>CT</b>: ground glass and consolidation</li>
+        </ul>
+      </div>
+      <div class="card f" style="text-align:center">
+        <div style="font:400 64px var(--serif);color:var(--oxy2)">~70 m²</div>
+        <p class="small">Alveolar surface area, roughly a badminton court. Plenty of room to hide a unit of blood without coughing any of it up.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>25:00–27:00.</b> The classic tetrad. Stress for juniors: <b>a falling Hb plus new bilateral shadowing</b> should make you think of DAH, with or without haemoptysis.</p>
+    <p>KCO: blood in the alveoli takes up CO, so the transfer coefficient rises. It is the one condition where an ill patient's KCO goes <i>up</i>. Rarely practical in the acute setting, but useful for recurrent bleeding.</p>
+    <p>The differential of DAH beyond PRS: coagulopathy, mitral stenosis, drugs (amiodarone, nitrofurantoin, anticoagulants), crack lung, idiopathic pulmonary haemosiderosis, bone marrow transplant.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     20. IMAGING
+     ============================================================ -->
+<section class="slide" data-title="Imaging" data-section="Recognition">
+  <div class="chrome-top"><span class="chip">Imaging</span><span class="timechip">~2 min</span></div>
+  <h2>What does it <em>look like?</em></h2>
+  <div class="grid2 fill">
+    <div class="img" style="padding:8px">
+      <svg viewBox="0 0 640 520" aria-label="Illustrated chest X-ray showing bilateral perihilar airspace shadowing" id="cxrSvg">
+        <defs>
+          <filter id="blurX"><feGaussianBlur stdDeviation="14"/></filter>
+          <filter id="blurS"><feGaussianBlur stdDeviation="4"/></filter>
+          <radialGradient id="lungDark" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#0d0d10"/><stop offset="1" stop-color="#202226"/></radialGradient>
+        </defs>
+        <rect width="640" height="520" fill="#05060a"/>
+        <!-- soft tissue -->
+        <path d="M80 60 C140 30 500 30 560 60 L600 520 L40 520Z" fill="#2c2f36"/>
+        <!-- lungs -->
+        <path d="M300 80 C230 70 150 120 125 220 C110 300 115 380 130 420 C200 440 260 430 300 410Z" fill="url(#lungDark)"/>
+        <path d="M340 80 C410 70 490 120 515 220 C530 300 525 380 510 420 C440 440 380 430 340 410Z" fill="url(#lungDark)"/>
+        <!-- ribs -->
+        <g fill="none" stroke="#6b707c" stroke-width="7" opacity=".45" stroke-linecap="round">
+          <path d="M300 110 C240 100 170 120 140 160"/><path d="M300 150 C230 140 160 165 130 210"/><path d="M300 190 C230 182 155 210 125 260"/><path d="M300 232 C230 226 152 255 122 305"/><path d="M300 274 C230 270 152 300 124 350"/><path d="M300 316 C235 312 160 340 130 392"/>
+          <path d="M340 110 C400 100 470 120 500 160"/><path d="M340 150 C410 140 480 165 510 210"/><path d="M340 190 C410 182 485 210 515 260"/><path d="M340 232 C410 226 488 255 518 305"/><path d="M340 274 C410 270 488 300 516 350"/><path d="M340 316 C405 312 480 340 510 392"/>
+        </g>
+        <!-- spine & heart -->
+        <rect x="300" y="40" width="40" height="440" fill="#9aa0ab" opacity=".55"/>
+        <path d="M298 250 C266 290 262 380 300 412 C350 440 450 430 462 360 C470 300 420 262 360 250Z" fill="#a6abb5" opacity=".6"/>
+        <!-- diaphragm -->
+        <path d="M120 420 C170 380 250 390 300 412 M340 412 C390 388 470 380 520 420" stroke="#bfc4cc" stroke-width="10" fill="none" opacity=".7"/>
+        <!-- clavicles -->
+        <path d="M140 92 C200 78 260 86 300 100 M340 100 C380 86 440 78 500 92" stroke="#c5c9d1" stroke-width="10" fill="none" opacity=".7" stroke-linecap="round"/>
+        <!-- DAH shadowing: perihilar, bilateral, sparing periphery -->
+        <g filter="url(#blurX)" fill="#e7e9ee">
+          <ellipse cx="240" cy="250" rx="70" ry="95" opacity=".55"/><ellipse cx="400" cy="250" rx="72" ry="95" opacity=".55"/>
+          <ellipse cx="220" cy="330" rx="60" ry="55" opacity=".45"/><ellipse cx="420" cy="330" rx="60" ry="55" opacity=".45"/>
+          <ellipse cx="250" cy="180" rx="40" ry="40" opacity=".35"/><ellipse cx="390" cy="180" rx="40" ry="40" opacity=".35"/>
+        </g>
+        <g filter="url(#blurS)" fill="#fff" opacity=".35"><circle cx="230" cy="260" r="10"/><circle cx="260" cy="300" r="8"/><circle cx="410" cy="240" r="10"/><circle cx="380" cy="300" r="8"/></g>
+        <text x="20" y="34" fill="#9fb0cc" font-family="JetBrains Mono" font-size="16">AP ERECT · R</text>
+        <g class="annot" opacity="0" style="transition:opacity .4s" font-family="Plus Jakarta Sans" font-size="17" font-weight="700">
+          <path d="M240 250 L120 150" stroke="#f5b840" stroke-width="2.5"/><circle cx="240" cy="250" r="6" fill="#f5b840"/>
+          <rect x="12" y="120" width="184" height="34" rx="8" fill="#f5b840"/><text x="104" y="143" text-anchor="middle" fill="#1a1100">Perihilar shadowing</text>
+          <path d="M500 230 L560 160" stroke="#7debe0" stroke-width="2.5"/><circle cx="500" cy="230" r="6" fill="#7debe0"/>
+          <rect x="456" y="120" width="172" height="34" rx="8" fill="#7debe0"/><text x="542" y="143" text-anchor="middle" fill="#04211e">Periphery spared</text>
+          <path d="M330 340 L330 470" stroke="#ff7085" stroke-width="2.5"/>
+          <rect x="180" y="470" width="300" height="34" rx="8" fill="#ff7085"/><text x="330" y="493" text-anchor="middle" fill="#2a0007">Normal heart size, no effusions</text>
+        </g>
+      </svg>
+      <p class="caption">Illustration: CXR showing bilateral airspace shadowing</p>
+    </div>
+    <div class="img" style="padding:8px">
+      <svg viewBox="0 0 640 520" aria-label="Illustrated axial CT chest with bilateral ground-glass opacity" id="ctSvg">
+        <defs><filter id="ggo"><feGaussianBlur stdDeviation="10"/></filter><filter id="ggo2"><feGaussianBlur stdDeviation="3"/></filter></defs>
+        <rect width="640" height="520" fill="#050506"/>
+        <ellipse cx="320" cy="270" rx="290" ry="200" fill="#3a3b40"/>
+        <ellipse cx="320" cy="270" rx="270" ry="182" fill="#2a2b30"/>
+        <!-- lungs -->
+        <path d="M300 120 C220 100 110 140 90 240 C76 320 120 400 200 410 C260 416 290 390 290 340 C290 300 260 260 280 220 C296 190 300 150 300 120Z" fill="#0b0b0d"/>
+        <path d="M340 120 C420 100 530 140 550 240 C564 320 520 400 440 410 C380 416 350 390 350 340 C350 300 380 260 360 220 C344 190 340 150 340 120Z" fill="#0b0b0d"/>
+        <!-- vessels -->
+        <g stroke="#55575e" stroke-width="3" fill="none" opacity=".8"><path d="M270 230 L200 190 M265 260 L170 260 M270 300 L190 340 M370 230 L440 190 M375 260 L470 260 M370 300 L450 340"/></g>
+        <!-- GGO patches central -->
+        <g filter="url(#ggo)" fill="#8a8c94">
+          <ellipse cx="220" cy="260" rx="70" ry="80" opacity=".75"/><ellipse cx="420" cy="260" rx="70" ry="80" opacity=".75"/>
+          <ellipse cx="180" cy="330" rx="50" ry="40" opacity=".55"/><ellipse cx="460" cy="320" rx="50" ry="40" opacity=".55"/>
+        </g>
+        <g filter="url(#ggo2)" fill="#c5c7cf" opacity=".55"><ellipse cx="230" cy="300" rx="22" ry="18"/><ellipse cx="410" cy="300" rx="22" ry="18"/></g>
+        <!-- mediastinum -->
+        <circle cx="320" cy="190" r="26" fill="#9a9ca4"/>
+        <ellipse cx="335" cy="280" rx="44" ry="50" fill="#8c8e96"/>
+        <circle cx="320" cy="410" r="30" fill="#e9eaee"/><rect x="306" y="430" width="28" height="30" fill="#e9eaee"/>
+        <circle cx="292" cy="388" r="13" fill="#9a9ca4"/>
+        <!-- nodule (GPA) -->
+        <circle cx="470" cy="190" r="20" fill="#9a9ca4"/><circle cx="472" cy="188" r="8" fill="#0b0b0d"/>
+        <text x="20" y="34" fill="#9fb0cc" font-family="JetBrains Mono" font-size="16">CT THORAX · LUNG WINDOW</text>
+        <g class="annot" opacity="0" style="transition:opacity .4s" font-family="Plus Jakarta Sans" font-size="17" font-weight="700">
+          <path d="M220 260 L110 110" stroke="#f5b840" stroke-width="2.5"/><circle cx="220" cy="260" r="6" fill="#f5b840"/>
+          <rect x="12" y="76" width="262" height="34" rx="8" fill="#f5b840"/><text x="143" y="99" text-anchor="middle" fill="#1a1100">Ground-glass + consolidation</text>
+          <path d="M472 188 L560 90" stroke="#ff7085" stroke-width="2.5"/>
+          <rect x="460" y="56" width="170" height="34" rx="8" fill="#ff7085"/><text x="545" y="79" text-anchor="middle" fill="#2a0007">Cavitating nodule</text>
+          <path d="M540 260 L600 470" stroke="#7debe0" stroke-width="2.5"/>
+          <rect x="440" y="470" width="190" height="34" rx="8" fill="#7debe0"/><text x="535" y="493" text-anchor="middle" fill="#04211e">Subpleural sparing</text>
+        </g>
+      </svg>
+      <p class="caption">Illustration: CT with bilateral ground glass and a cavitating nodule (suggests GPA)</p>
+    </div>
+  </div>
+  <div class="btnrow" style="justify-content:center;margin-top:12px"><button class="btn primary" data-annot="#cxrSvg,#ctSvg">Show / hide findings</button><span class="tiny">Ask the room to call the findings before you reveal them</span></div>
+  <aside class="notes">
+    <p><b>27:00–29:00.</b> Ask: "What would you report?" Then show the labels.</p>
+    <ul>
+      <li>DAH: bilateral, often perihilar or diffuse airspace opacity, with sparing at the periphery and apices. Heart size normal, no effusions (unlike pulmonary oedema).</li>
+      <li>CT: ground glass and consolidation. With repeated bleeds you can see interlobular septal thickening, giving "crazy paving".</li>
+      <li>DAH can clear radiologically within 2–3 days, while pneumonia doesn't.</li>
+      <li>GPA: nodules, often cavitating. MPA: ILD/UIP.</li>
+    </ul>
+    <p>These images are illustrations. Swap in anonymised local images (with permission) if you have them.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     21. BAL
+     ============================================================ -->
+<section class="slide" data-title="Bronchoalveolar lavage" data-section="Recognition">
+  <div class="chrome-top"><span class="chip">Bronchoscopy</span><span class="timechip">~2 min</span></div>
+  <h2>The tubes that tell the <em>story</em></h2>
+  <div class="g-6-4 fill">
+    <div class="img" style="padding:10px">
+      <svg viewBox="0 0 820 540" aria-label="Four BAL aliquots becoming progressively more blood-stained, plus a haemosiderin-laden macrophage">
+        <defs>
+          <linearGradient id="glass" x1="0" x2="1"><stop offset="0" stop-color="rgba(255,255,255,.25)"/><stop offset=".3" stop-color="rgba(255,255,255,.05)"/><stop offset=".7" stop-color="rgba(255,255,255,.02)"/><stop offset="1" stop-color="rgba(255,255,255,.2)"/></linearGradient>
+          <clipPath id="tube"><path d="M0 0 L60 0 L60 300 A30 30 0 0 1 0 300Z"/></clipPath>
+        </defs>
+        <g font-family="Plus Jakarta Sans">
+          <g transform="translate(60,60)">
+            <g clip-path="url(#tube)"><rect x="0" y="90" width="60" height="260" fill="#f2b8a0" opacity=".55"/></g>
+            <path d="M0 0 L60 0 L60 300 A30 30 0 0 1 0 300Z" fill="url(#glass)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+            <rect x="-8" y="-14" width="76" height="20" rx="6" fill="#4aa3ff"/>
+            <text x="30" y="380" text-anchor="middle" fill="#eef3fb" font-size="22" font-weight="700">1</text>
+          </g>
+          <g transform="translate(180,60)">
+            <g clip-path="url(#tube)"><rect x="0" y="90" width="60" height="260" fill="#e8806c" opacity=".7"/></g>
+            <path d="M0 0 L60 0 L60 300 A30 30 0 0 1 0 300Z" fill="url(#glass)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+            <rect x="-8" y="-14" width="76" height="20" rx="6" fill="#4aa3ff"/>
+            <text x="30" y="380" text-anchor="middle" fill="#eef3fb" font-size="22" font-weight="700">2</text>
+          </g>
+          <g transform="translate(300,60)">
+            <g clip-path="url(#tube)"><rect x="0" y="90" width="60" height="260" fill="#d4384a" opacity=".85"/></g>
+            <path d="M0 0 L60 0 L60 300 A30 30 0 0 1 0 300Z" fill="url(#glass)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+            <rect x="-8" y="-14" width="76" height="20" rx="6" fill="#4aa3ff"/>
+            <text x="30" y="380" text-anchor="middle" fill="#eef3fb" font-size="22" font-weight="700">3</text>
+          </g>
+          <g transform="translate(420,60)">
+            <g clip-path="url(#tube)"><rect x="0" y="90" width="60" height="260" fill="#8e0f22"/></g>
+            <path d="M0 0 L60 0 L60 300 A30 30 0 0 1 0 300Z" fill="url(#glass)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+            <rect x="-8" y="-14" width="76" height="20" rx="6" fill="#4aa3ff"/>
+            <text x="30" y="380" text-anchor="middle" fill="#eef3fb" font-size="22" font-weight="700">4</text>
+          </g>
+          <path d="M60 470 L480 470" stroke="#ff7085" stroke-width="4"/><path d="M470 458 L486 470 L470 482" fill="none" stroke="#ff7085" stroke-width="4"/>
+          <text x="270" y="505" text-anchor="middle" fill="#ff7085" font-size="19" font-weight="700">Each aliquot bloodier than the last = DAH</text>
+          <!-- macrophage -->
+          <g transform="translate(680,230)">
+            <circle r="110" fill="#1b2235" stroke="rgba(255,255,255,.15)"/>
+            <path d="M-70 -20 C-80 -70 -20 -90 20 -80 C70 -70 90 -20 80 20 C70 70 20 90 -20 80 C-60 70 -60 30 -70 -20Z" fill="#f0c9d4"/>
+            <ellipse cx="-20" cy="-10" rx="26" ry="20" fill="#b0577a"/>
+            <g fill="#2f62d6"><circle cx="20" cy="-40" r="7"/><circle cx="40" cy="-20" r="6"/><circle cx="30" cy="10" r="8"/><circle cx="50" cy="20" r="5"/><circle cx="10" cy="30" r="6"/><circle cx="-10" cy="45" r="7"/><circle cx="30" cy="45" r="5"/><circle cx="-40" cy="30" r="5"/><circle cx="55" cy="-5" r="5"/><circle cx="0" cy="-50" r="5"/></g>
+            <text y="150" text-anchor="middle" fill="#eef3fb" font-size="19" font-weight="700">Haemosiderin-laden</text>
+            <text y="174" text-anchor="middle" fill="#eef3fb" font-size="19" font-weight="700">macrophage</text>
+            <text y="198" text-anchor="middle" fill="#9fb0cc" font-size="15">Perls' Prussian blue stain</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <ul class="clean">
+        <li class="f">Sequential aliquots from the <b>same segment</b> that get <b>bloodier each time</b></li>
+        <li class="f"><b>Haemosiderin-laden macrophages</b>, more than 20% on Perls' stain, appear about <b>48–72 h</b> after a bleed</li>
+        <li class="f">Just as important, BAL <b>excludes infection</b>: bacteria, PJP PCR, viruses, fungi and TB</li>
+      </ul>
+      <div class="callout red mt f"><b>Respiratory SpRs:</b> balance the hypoxia risk. Bronchoscopy often happens once the patient is intubated, or not at all. <b>Never delay immunosuppression for it.</b></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>29:00–31:00.</b> This is the respiratory team's moment. BAL proves DAH and, crucially, rules out infection before heavy immunosuppression.</p>
+    <p>In a bleed from an airway (e.g. a tumour), the return gets <i>clearer</i> with each aliquot. In DAH, it gets <i>bloodier</i>.</p>
+    <p>Practical points: do it early (within 48 h) for the best yield. Discuss with ICU if FiO₂ is high. Send cell count/differential, Perls' stain, cultures, PJP PCR, respiratory viral PCR, fungal culture and AFB.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     22. URINE
+     ============================================================ -->
+<section class="slide" data-title="The kidney side: urine" data-optional="1" data-section="Recognition">
+  <div class="chrome-top"><span class="chip teal">Kidney</span><span class="chip">⏩ optional</span><span class="timechip">~1 min</span></div>
+  <h2>Ask the <em>urine</em></h2>
+  <div class="g-4-6 fill">
+    <div class="img" style="padding:10px">
+      <svg viewBox="0 0 520 520" aria-label="Urine microscopy illustration with dysmorphic red cells and a red cell cast">
+        <defs>
+          <radialGradient id="field" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f6efe0"/><stop offset=".85" stop-color="#e7dcc2"/><stop offset="1" stop-color="#1a1408"/></radialGradient>
+          <g id="acanth"><circle r="13" fill="#e7a1a1" stroke="#b55a5a" stroke-width="2"/><circle cx="-10" cy="-10" r="5" fill="#e7a1a1" stroke="#b55a5a" stroke-width="2"/><circle cx="10" cy="-10" r="5" fill="#e7a1a1" stroke="#b55a5a" stroke-width="2"/></g>
+          <g id="norm"><circle r="12" fill="#efb3b3" stroke="#c37171" stroke-width="2"/><circle r="5" fill="#f6d0d0"/></g>
+        </defs>
+        <circle cx="260" cy="260" r="250" fill="url(#field)"/>
+        <!-- red cell cast -->
+        <g transform="translate(260,250) rotate(-18)">
+          <rect x="-170" y="-34" width="340" height="68" rx="34" fill="#f2d7a8" stroke="#b9925c" stroke-width="3" opacity=".9"/>
+          <g fill="#d2585a" stroke="#9e3134" stroke-width="1.5">
+            <circle cx="-130" cy="-8" r="11"/><circle cx="-108" cy="12" r="11"/><circle cx="-86" cy="-10" r="11"/><circle cx="-62" cy="10" r="11"/><circle cx="-40" cy="-12" r="11"/><circle cx="-16" cy="8" r="11"/><circle cx="8" cy="-10" r="11"/><circle cx="30" cy="12" r="11"/><circle cx="54" cy="-8" r="11"/><circle cx="78" cy="10" r="11"/><circle cx="102" cy="-10" r="11"/><circle cx="126" cy="8" r="11"/>
+          </g>
+        </g>
+        <use href="#acanth" x="120" y="110"/><use href="#acanth" x="380" y="120" transform="rotate(30 380 120)"/><use href="#acanth" x="140" y="400"/><use href="#acanth" x="370" y="390"/><use href="#acanth" x="420" y="260"/>
+        <use href="#norm" x="90" y="260"/><use href="#norm" x="250" y="420"/><use href="#norm" x="260" y="90"/>
+        <g font-family="Plus Jakarta Sans" font-weight="700" font-size="17">
+          <rect x="150" y="300" width="220" height="32" rx="8" fill="#0a1120" opacity=".85"/><text x="260" y="322" text-anchor="middle" fill="#ff7085">Red cell cast</text>
+          <rect x="150" y="40" width="270" height="32" rx="8" fill="#0a1120" opacity=".85"/><text x="285" y="62" text-anchor="middle" fill="#f5b840">Acanthocytes ("Mickey Mouse")</text>
+        </g>
+      </svg>
+      <p class="caption">Illustration: urine microscopy</p>
+    </div>
+    <div>
+      <div class="grid2" style="gap:18px">
+        <div class="card teal f"><h3>Dipstick</h3><p>Blood plus protein. Do it <b>on arrival</b>, before a catheter goes in.</p></div>
+        <div class="card teal f"><h3>Microscopy</h3><p>Dysmorphic RBCs and red cell casts point to bleeding from the glomerulus.</p></div>
+        <div class="card teal f"><h3>uPCR / uACR</h3><p>Quantifies proteinuria and gives a baseline for monitoring.</p></div>
+        <div class="card teal f"><h3>Renal USS</h3><p>Normal-sized kidneys suggest acute disease. Excludes obstruction.</p></div>
+      </div>
+      <p class="joke mt f">🚽 A catheter bag full of blood after a traumatic insertion doesn't count. Dip first, then catheterise.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>31:00–32:00.</b> Quick slide. Message: dip <b>before</b> catheterising, because catheter trauma confuses the picture.</p>
+    <p>Many labs don't do routine phase-contrast microscopy. The renal team may look at a fresh sample themselves, so ask.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     23. MIMICS — FLIP CARDS
+     ============================================================ -->
+<section class="slide" data-title="Vasculitis or impostor?" data-section="Recognition">
+  <div class="chrome-top"><span class="chip gold">Interactive</span><span class="timechip">~3 min</span></div>
+  <h2>Vasculitis or <em>impostor?</em></h2>
+  <p class="small muted" style="margin-top:-14px;margin-bottom:18px">Vote, then click each card to flip it.</p>
+  <div class="grid3" style="gap:20px">
+    <div class="flip"><div class="in"><div class="fa"><p>A 74-year-old with known heart failure: bilateral shadowing, AKI and a bit of pink frothy sputum.</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">IMPOSTOR</div><p><b>Cardiorenal.</b> Look for cardiomegaly, effusions, raised BNP and a response to diuretics. But still dip the urine.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>A canoeist from Hebden Bridge with fever, jaundice, haemoptysis and AKI after a weekend on the Calder.</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">IMPOSTOR</div><p><b>Leptospirosis (Weil's disease).</b> Can cause severe pulmonary haemorrhage. Ask about water and rats. Send leptospira PCR/serology.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>A 28-year-old woman with arthralgia, mouth ulcers, low C3/C4, positive dsDNA and haemoptysis.</p><div class="hint">Click to flip</div></div><div class="fb fact"><div class="verdict green">GENUINE PRS</div><p><b>SLE</b> with DAH and lupus nephritis. High mortality, so involve rheumatology and renal urgently.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>On warfarin, INR 9.4, haemoptysis and frank haematuria. Creatinine normal.</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">IMPOSTOR</div><p><b>Coagulopathy.</b> Bleeding from everywhere, but no GN: no casts, no proteinuria, no AKI. Reverse it.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>Platelets 18, fragments on the film, LDH 2,400, AKI, confusion, mild haemoptysis.</p><div class="hint">Click to flip</div></div><div class="fb" style="background:linear-gradient(160deg,rgba(245,184,64,.3),rgba(245,184,64,.08));border-color:rgba(245,184,64,.5)"><div class="verdict gold">DIFFERENT EMERGENCY</div><p><b>TMA (TTP/HUS).</b> Send ADAMTS13 and call haematology now for plasma exchange. Don't biopsy with platelets of 18!</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>A 66-year-old on hydralazine for 3 years: new haemoptysis, AKI, very high MPO-ANCA.</p><div class="hint">Click to flip</div></div><div class="fb fact"><div class="verdict green">GENUINE PRS</div><p><b>Drug-induced AAV.</b> Stop the hydralazine. Often also ANA, anti-histone positive. Still usually needs immunosuppression.</p></div></div></div>
+  </div>
+  <aside class="notes">
+    <p><b>32:00–35:00.</b> Read each card, take a quick vote (genuine or impostor), then flip. Award a point to the team with the most correct answers. Use the scoreboard on a quiz slide later, or shout the scores out.</p>
+    <p>Local relevance: the Calder Valley has plenty of rivers and canals. Leptospirosis is rare, but pulmonary haemorrhage with AKI in someone exposed to water should prompt testing (UKHSA Rare and Imported Pathogens Laboratory).</p>
+    <p>Also consider: severe Legionella or pneumococcal sepsis with AKI, hantavirus (rare in the UK), and PE with AKI.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     24. FIRST-HOUR INVESTIGATIONS — CHECKLIST
+     ============================================================ -->
+<section class="slide" data-title="The first-hour bundle" data-section="Recognition">
+  <div class="chrome-top"><span class="chip gold">Interactive checklist</span><span class="timechip">~2 min</span></div>
+  <h2>The <em>first-hour</em> bundle</h2>
+  <div class="grid3" style="gap:14px 22px" id="bundle">
+    <div class="check"><span class="box"></span><span class="lbl"><b>Urine</b> dipstick, urgent microscopy, uPCR</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>ABG</b> and oxygen requirement</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>FBC, film</b>, reticulocytes, LDH, haptoglobin</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>Clotting</b> and fibrinogen, group and crossmatch</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>U&amp;E, LFT, CRP</b>, bone, CK</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>ANCA</b> (PR3 + MPO) and <b>anti-GBM</b>, phoned through as urgent</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>ANA, dsDNA, C3/C4</b>, immunoglobulins</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>Antiphospholipid</b> antibodies, cryoglobulins</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>Blood cultures</b>, sputum, viral PCR, urinary antigens</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>HIV, hepatitis B and C</b> (before rituximab!)</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>CXR, then CT chest</b>; renal ultrasound</span></div>
+    <div class="check"><span class="box"></span><span class="lbl"><b>Call renal now</b> to plan a biopsy; involve ICU early</span></div>
+  </div>
+  <div class="row mt" style="align-items:center;gap:20px">
+    <div class="progressbar" style="flex:1"><span id="bundleBar"></span></div>
+    <div class="mono" id="bundleTxt" style="font-size:20px;min-width:240px;text-align:right;color:var(--muted)">0 / 12 done</div>
+  </div>
+  <aside class="notes">
+    <p><b>35:00–37:00.</b> Ask the FYs and CTs to call out the tests one at a time, and tick each one as it's named. When all 12 are ticked, a "complete" message appears.</p>
+    <p>Teaching points: phone the immunology lab, as urgent ANCA/anti-GBM can come back the same day. Take hepatitis/HIV serology <b>before</b> rituximab. Group and save, because these patients bleed.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     25. SEROLOGY
+     ============================================================ -->
+<section class="slide" data-title="Reading the serology" data-optional="1" data-section="Recognition">
+  <div class="chrome-top"><span class="chip sky">Serology</span><span class="chip">⏩ optional</span><span class="timechip">~1 min</span></div>
+  <h2>Reading the <em>serology</em></h2>
+  <table class="t">
+    <tr><th>Result</th><th>Think of</th><th>Pearl</th></tr>
+    <tr class="f"><td><span class="tag red">PR3-ANCA</span></td><td>GPA</td><td>Higher relapse risk. ENT disease, nodules and cavities.</td></tr>
+    <tr class="f"><td><span class="tag red">MPO-ANCA</span></td><td>MPA, renal-limited vasculitis, drug-induced disease</td><td>Associated with <b>UIP-pattern ILD</b>. Older patients.</td></tr>
+    <tr class="f"><td><span class="tag" style="background:rgba(155,140,255,.2);color:#c3b9ff">Anti-GBM</span></td><td>Anti-GBM disease</td><td>Can be falsely negative. If you suspect it, the biopsy decides. Check for ANCA as well.</td></tr>
+    <tr class="f"><td><span class="tag gold">ANA, dsDNA, low C3/C4</span></td><td>SLE</td><td>Low complement points away from AAV and anti-GBM.</td></tr>
+    <tr class="f"><td><span class="tag gold">Cryoglobulins, low C4</span></td><td>Cryoglobulinaemic vasculitis</td><td>Check hepatitis C. The sample must travel warm (37 °C).</td></tr>
+    <tr class="f"><td><span class="tag teal">aPL / lupus anticoagulant</span></td><td>APS, catastrophic APS</td><td>Look for thrombosis and TMA on biopsy.</td></tr>
+  </table>
+  <div class="callout mt f"><b>ANCA-negative ≠ no vasculitis.</b> Around 10% of AAV is ANCA-negative. Use <b>PR3/MPO immunoassays</b> first line (2017 international consensus), not immunofluorescence alone.</div>
+  <aside class="notes">
+    <p><b>37:00–38:00.</b> Brief. Key points: the ANCA titre doesn't reliably track disease activity. Treat the patient, not the number. Low complement is a big clue towards immune-complex disease.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     26. BIOPSY — NAME THAT PATTERN
+     ============================================================ -->
+<section class="slide" data-title="Name that pattern" data-section="Recognition">
+  <div class="chrome-top"><span class="chip gold">Interactive</span><span class="timechip">~2 min</span></div>
+  <h2>Name that <em>pattern</em>: renal immunofluorescence</h2>
+  <div class="grid3 fill" style="gap:28px">
+    <div class="center">
+      <div class="img" style="width:360px;height:360px;border-radius:50%">
+        <svg viewBox="0 0 400 400" aria-label="Linear immunofluorescence pattern">
+          <defs><filter id="fl"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="400" height="400" fill="#020403"/>
+          <g fill="none" stroke="#5dff8a" stroke-width="4" filter="url(#fl)">
+            <circle cx="200" cy="150" r="46"/><circle cx="270" cy="200" r="44"/><circle cx="210" cy="250" r="48"/><circle cx="130" cy="200" r="44"/><circle cx="150" cy="120" r="34"/><circle cx="260" cy="120" r="32"/><circle cx="150" cy="290" r="32"/><circle cx="270" cy="290" r="34"/>
+          </g>
+          <circle cx="200" cy="200" r="180" fill="none" stroke="#123b1e" stroke-width="3"/>
+        </svg>
+      </div>
+      <h3 class="mt">Pattern A</h3>
+      <button class="btn reveal-lbl" data-label="<b class='violet'>Linear IgG</b>: anti-GBM disease. A smooth ribbon along every capillary loop.">Reveal</button>
+      <p class="small lbl-out" style="min-height:70px;margin-top:10px"></p>
+    </div>
+    <div class="center">
+      <div class="img" style="width:360px;height:360px;border-radius:50%">
+        <svg viewBox="0 0 400 400" aria-label="Granular immunofluorescence pattern">
+          <rect width="400" height="400" fill="#020403"/>
+          <g fill="none" stroke="#5dff8a" stroke-width="9" stroke-linecap="round" stroke-dasharray="1 13" filter="url(#fl)">
+            <circle cx="200" cy="150" r="46"/><circle cx="270" cy="200" r="44"/><circle cx="210" cy="250" r="48"/><circle cx="130" cy="200" r="44"/><circle cx="150" cy="120" r="34"/><circle cx="260" cy="120" r="32"/><circle cx="150" cy="290" r="32"/><circle cx="270" cy="290" r="34"/>
+          </g>
+          <g fill="#5dff8a" opacity=".6" filter="url(#fl)"><circle cx="200" cy="200" r="7"/><circle cx="175" cy="225" r="6"/><circle cx="230" cy="180" r="6"/><circle cx="210" cy="160" r="5"/></g>
+          <circle cx="200" cy="200" r="180" fill="none" stroke="#123b1e" stroke-width="3"/>
+        </svg>
+      </div>
+      <h3 class="mt">Pattern B</h3>
+      <button class="btn reveal-lbl" data-label="<b class='gold'>Granular ('lumpy-bumpy')</b>: immune-complex disease such as SLE. In lupus, 'full house' staining (IgG, IgA, IgM, C3, C1q).">Reveal</button>
+      <p class="small lbl-out" style="min-height:70px;margin-top:10px"></p>
+    </div>
+    <div class="center">
+      <div class="img" style="width:360px;height:360px;border-radius:50%">
+        <svg viewBox="0 0 400 400" aria-label="Pauci-immune pattern with minimal staining">
+          <rect width="400" height="400" fill="#020403"/>
+          <g fill="none" stroke="#16391f" stroke-width="3">
+            <circle cx="200" cy="150" r="46"/><circle cx="270" cy="200" r="44"/><circle cx="210" cy="250" r="48"/><circle cx="130" cy="200" r="44"/><circle cx="150" cy="120" r="34"/><circle cx="260" cy="120" r="32"/><circle cx="150" cy="290" r="32"/><circle cx="270" cy="290" r="34"/>
+          </g>
+          <path d="M60 110 A180 180 0 0 0 60 290 A150 160 0 0 1 60 110Z" fill="#1f5a2c" opacity=".55"/>
+          <circle cx="200" cy="200" r="180" fill="none" stroke="#123b1e" stroke-width="3"/>
+        </svg>
+      </div>
+      <h3 class="mt">Pattern C</h3>
+      <button class="btn reveal-lbl" data-label="<b class='red'>Pauci-immune</b>: little or no staining, but a crescent on light microscopy. This is ANCA vasculitis.">Reveal</button>
+      <p class="small lbl-out" style="min-height:70px;margin-top:10px"></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>38:00–40:00.</b> Ask each team to name a pattern, and give a point for each correct answer.</p>
+    <p>The biopsy also gives prognosis. The Berden histological classification (focal, crescentic, mixed, sclerotic) and the ANCA Renal Risk Score (proportion of normal glomeruli, interstitial fibrosis, eGFR) predict renal survival.</p>
+    <p>Don't delay treatment while waiting for the biopsy if the clinical picture and serology fit. A biopsy can still be useful several days into treatment.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     27. CASE 1 — RESOLUTION
+     ============================================================ -->
+<section class="slide" data-title="Case 1: the answer" data-section="Case">
+  <div class="chrome-top"><span class="chip">Case 1, continued</span><span class="timechip">~2 min</span></div>
+  <h2>Back to <em>Mr D</em></h2>
+  <div class="g-6-4 fill">
+    <div class="flow">
+      <div class="node f"><h3 class="sky">Serology (same day)</h3><p><b class="red">PR3-ANCA strongly positive (&gt;100 IU/mL)</b> · MPO negative · anti-GBM negative · ANA negative · C3/C4 normal</p></div>
+      <div class="node f"><h3 class="sky">CT chest</h3><p>Bilateral ground glass and consolidation, plus a 2 cm cavitating nodule in the right upper lobe</p></div>
+      <div class="node f"><h3 class="sky">BAL (after intubation, day 1)</h3><p>Progressively haemorrhagic aliquots. Haemosiderin-laden macrophages 40%. Cultures and PJP PCR negative.</p></div>
+      <div class="node f"><h3 class="sky">Renal biopsy (day 2)</h3><p>Focal necrotising crescentic GN: crescents in 9 of 15 glomeruli. <b>Pauci-immune</b> on immunofluorescence.</p></div>
+    </div>
+    <div class="center">
+      <div class="card gold" style="width:100%">
+        <h4 class="gold">Diagnosis</h4>
+        <button class="btn primary" data-show="#dx1">Reveal diagnosis</button>
+        <div id="dx1" class="step" style="margin-top:18px">
+          <div style="font:400 48px/1.1 var(--serif);color:var(--ink)">PR3-ANCA <em class="red" style="font-style:italic">GPA</em></div>
+          <p class="mt">with pulmonary–renal syndrome: DAH plus RPGN</p>
+          <p class="small muted mt">Clues that were there from week one: nose, joints, a "non-resolving chest infection", and a falling Hb.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>40:00–41:00.</b> Bring the case together. Ask: "At what point could we have made this diagnosis?" Answer: at the first GP visit, with a urine dip and an ANCA, given the ENT symptoms.</p>
+    <p>No blame on primary care; this is hard. But the message for our own clerking is to dip the urine and ask about the nose.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     28. QUIZ — KCO
+     ============================================================ -->
+<section class="slide" data-title="Quick quiz: transfer factor" data-optional="1" data-section="Recognition">
+  <div class="chrome-top"><span class="chip gold">Team quiz</span><span class="chip">⏩ optional</span><span class="timechip">~1 min</span></div>
+  <div class="score" data-score></div>
+  <div class="mcq mt" data-answer="1">
+    <div class="q">Which lung function result supports an <span class="gold">acute alveolar bleed</span>?</div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>KCO reduced by 30%</button>
+      <button class="opt"><span class="k">B</span>KCO raised by more than 30%</button>
+      <button class="opt"><span class="k">C</span>FEV₁/FVC below 0.7</button>
+      <button class="opt"><span class="k">D</span>Flattened inspiratory flow-volume loop</button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button></div>
+    <div class="explain callout teal"><b>B.</b> Haemoglobin in the alveoli soaks up carbon monoxide, so KCO <b>rises</b>. Most lung diseases (ILD, emphysema, PE) lower it. Option D is a lovely distractor: that's <b>subglottic stenosis</b>, which is also seen in GPA.</div>
+  </div>
+  <aside class="notes">
+    <p><b>41:00–42:00.</b> Team question. Give a point to the team that answers correctly first, using the +/− on the scoreboard.</p>
+    <p>Other causes of a raised KCO: polycythaemia, left-to-right shunt, asthma, and extraparenchymal restriction (e.g. obesity, pneumonectomy).</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     29. SECTION 04
+     ============================================================ -->
+<section class="slide section-slide" data-title="Section 4: Management" data-section="Management">
+  <div class="num">04</div>
+  <h1>Treat it <em>fast</em></h1>
+  <p class="lead mt">Stabilise, start induction, and get the right people in the room.</p>
+  <aside class="notes"><p>Section divider. About 42:00.</p></aside>
+</section>
+
+<!-- ============================================================
+     30. FIRST HOUR — STABILISE
+     ============================================================ -->
+<section class="slide" data-title="The first hour: stabilise" data-section="Management">
+  <div class="chrome-top"><span class="chip">Acute management</span><span class="timechip">~2 min</span></div>
+  <h2>The first hour: <em>stabilise</em></h2>
+  <div class="grid3" style="gap:22px">
+    <div class="card sky f"><h4 class="sky">A · B</h4><h3>Breathing</h3><ul class="clean small"><li>Titrate oxygen; consider HFNO</li><li>NIV with caution; bleeding patients deteriorate quickly</li><li><b>Early ICU review</b>. Intubate before a crash, not during one</li><li>Lung-protective ventilation; PEEP may help tamponade</li></ul></div>
+    <div class="card red f"><h4 class="red">C</h4><h3>Circulation and blood</h3><ul class="clean small"><li>Transfuse to target (locally, often Hb above 70–80)</li><li>Correct clotting; keep platelets above 50</li><li><b>Stop</b> anticoagulants and antiplatelets</li><li>Two large-bore cannulas; crossmatch</li></ul></div>
+    <div class="card teal f"><h4 class="teal">D · E</h4><h3>Kidneys and the rest</h3><ul class="clean small"><li>Treat hyperkalaemia, acidosis and fluid overload</li><li>Urgent dialysis if indicated</li><li>Broad-spectrum antibiotics until infection is excluded</li><li>Strict fluid balance chart</li></ul></div>
+  </div>
+  <div class="grid2 mt">
+    <div class="callout red f"><b>Call:</b> renal on-call · ICU outreach · rheumatology/vasculitis team. <b>Don't sit on it overnight.</b></div>
+    <div class="callout teal f"><b>Start IV methylprednisolone</b> once the picture fits and infection has been reasonably considered. <b>Don't wait for the biopsy.</b></div>
+  </div>
+  <p class="joke mt f">🫁 Dialysis can stand in for the kidneys for years. Nothing stands in for alveoli. Look after the lungs first.</p>
+  <aside class="notes">
+    <p><b>42:00–44:00.</b> Practical and generic. Emphasise that immunosuppression can start before every result is back if the clinical suspicion is high. This is a joint decision with renal/rheumatology.</p>
+    <p>In refractory DAH, VV-ECMO has been used successfully as a bridge (case series). It needs specialist centre input.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     31. AAV INDUCTION
+     ============================================================ -->
+<section class="slide" data-title="Induction for ANCA vasculitis" data-section="Management">
+  <div class="chrome-top"><span class="chip">Induction: AAV</span><span class="timechip">~2 min</span></div>
+  <h2>Induction for <em>ANCA vasculitis</em></h2>
+  <div class="grid4" style="gap:16px;align-items:stretch">
+    <div class="card gold f"><div class="icon">💉</div><h4 class="gold">Step 1</h4><h3>Glucocorticoids</h3><p class="small">IV methylprednisolone <b>250–1000 mg</b> daily for up to 3 days, then oral prednisolone on a <b>reduced-dose taper</b> (PEXIVAS)</p></div>
+    <div class="card red f"><div class="icon">🎯</div><h4 class="red">Step 2</h4><h3>Rituximab <span class="muted">or</span> cyclophosphamide</h3><p class="small"><b>RTX</b>: preferred for relapsing disease, PR3, and when fertility matters.<br><b>CYC</b>: IV pulses (CYCLOPS).<br>Creatinine above about 354 µmol/L: consider <b>RTX + low-dose CYC</b> (KDIGO 2024)</p></div>
+    <div class="card teal f"><div class="icon">🧬</div><h4 class="teal">Step 3</h4><h3>Avacopan</h3><p class="small">C5aR1 antagonist, 30 mg twice daily. Lets you cut steroids further. Better sustained remission at week 52 (ADVOCATE). NICE recommended (2022)</p></div>
+    <div class="card violet f"><div class="icon">🔄</div><h4 class="violet">Step 4</h4><h3>Plasma exchange?</h3><p class="small">Not routine. Consider in selected patients: severe kidney injury, DAH with hypoxaemia, or double-positive disease. <b>Next slide: the debate</b></p></div>
+  </div>
+  <div class="card mt f" style="padding:18px 26px">
+    <div class="row" style="align-items:center;gap:26px">
+      <div style="font:400 40px var(--serif);color:var(--oxy2);flex:none">Then maintenance →</div>
+      <p class="small"><b>Rituximab</b> every 6 months (MAINRITSAN: better than azathioprine) for <b>24–48 months</b> after remission (EULAR 2022). Alternatives: azathioprine or methotrexate. Longer for PR3 and relapsing disease.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>44:00–46:00.</b> The regimen is decided with renal/rheumatology; your job is to know the principles.</p>
+    <ul>
+      <li>Rituximab: 375 mg/m² weekly × 4, or 1 g × 2 two weeks apart.</li>
+      <li>IV cyclophosphamide 15 mg/kg (reduced for age and renal function) at weeks 0, 2, 4, then every 3 weeks (CYCLOPS regimen).</li>
+      <li>Reduced-dose steroids: PEXIVAS showed reduced-dose glucocorticoids were non-inferior for death/ESKD and caused fewer serious infections.</li>
+      <li>Avacopan: in ADVOCATE, it replaced the prednisolone taper. Watch LFTs.</li>
+    </ul>
+    <p>Always check your local and network protocols. Doses here are for teaching.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     32. PLEX DEBATE
+     ============================================================ -->
+<section class="slide" data-title="The great PLEX debate" data-section="Management">
+  <div class="chrome-top"><span class="chip gold">Live debate</span><span class="timechip">~3 min</span></div>
+  <h2>The great <em>plasma exchange</em> debate</h2>
+  <div class="g-4-6 fill">
+    <div>
+      <div class="card gold">
+        <p style="font-size:24px;color:var(--ink)"><b>Mr D:</b> creatinine 412 and rising, intubated with DAH, PR3-ANCA positive.</p>
+        <p class="mt" style="font-size:26px;color:var(--gold)"><b>Plasma exchange: yes or no?</b></p>
+      </div>
+      <div class="poll mt" id="plexPoll">
+        <button class="pollopt" data-c="teal"><span class="pl">Yes: kidneys and lungs</span><span class="pbar"><span></span></span><span class="pn">0</span></button>
+        <button class="pollopt" data-c="gold"><span class="pl">Only for the lungs (DAH)</span><span class="pbar"><span></span></span><span class="pn">0</span></button>
+        <button class="pollopt" data-c="red"><span class="pl">No: PEXIVAS settled it</span><span class="pbar"><span></span></span><span class="pn">0</span></button>
+      </div>
+      <p class="tiny mt">Click to add a vote · Shift+click to remove one</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card f" style="padding:18px 22px"><h4 class="sky">PEXIVAS · NEJM 2020 · n = 704</h4><p class="small">PLEX did <b>not</b> reduce death or ESKD overall. Reduced-dose steroids were <b>non-inferior</b>, with fewer serious infections. About 190 patients had DAH, but few had severe DAH.</p></div>
+      <div class="card f" style="padding:18px 22px"><h4 class="sky">Meta-analysis · BMJ 2022 · 9 trials</h4><p class="small">PLEX probably <b>reduces ESKD at 12 months</b> (more so at higher baseline risk), has little effect on mortality, and may <b>increase serious infections</b>.</p></div>
+      <div class="card f" style="padding:16px 22px">
+        <h4 class="sky">What the guidelines say</h4>
+        <table class="t" style="font-size:17px">
+          <tr><td>KDIGO 2024</td><td><b>Consider</b> if creatinine &gt;300 µmol/L, on dialysis or rising fast; and for <b>DAH with hypoxaemia</b></td></tr>
+          <tr><td>EULAR 2022</td><td><b>May be considered</b> if creatinine &gt;300 from active GN; <b>not routinely for DAH</b></td></tr>
+          <tr><td>ACR 2021</td><td>Advises <b>against routine</b> use</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>46:00–49:00.</b> This is the consultant/SpR discussion slide. Take a vote, then invite one consultant to argue each side for 30 seconds.</p>
+    <p>Honest summary: there is no definitive trial evidence for PLEX in severe DAH. Guidelines differ, and practice varies between centres. Decisions are individualised. Many centres still use PLEX for life-threatening DAH, and for anti-GBM or double-positive disease (where it is standard).</p>
+    <p>References: Walsh M et al. NEJM 2020;382:622–31 (PEXIVAS). Walsh M et al. BMJ 2022;376:e064604. KDIGO 2024 ANCA-associated vasculitis guideline. Hellmich B et al. Ann Rheum Dis 2024;83:30–47 (EULAR 2022 update). Chung SA et al. Arthritis Rheumatol 2021 (ACR/VF).</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     33. ANTI-GBM MANAGEMENT
+     ============================================================ -->
+<section class="slide" data-title="Treating anti-GBM disease" data-section="Management">
+  <div class="chrome-top"><span class="chip violet">Anti-GBM</span><span class="timechip">~1 min</span></div>
+  <h2>Anti-GBM: <em>remove</em> the antibody, <em>stop</em> making more</h2>
+  <div class="grid3" style="gap:22px">
+    <div class="card violet f"><div class="icon">🔄</div><h3>Plasma exchange</h3><p class="small"><b>Daily</b>, usually about 14 days or until anti-GBM is undetectable. Albumin replacement; give FFP if bleeding or soon after a biopsy.</p></div>
+    <div class="card gold f"><div class="icon">💉</div><h3>Steroids</h3><p class="small">IV methylprednisolone, then <b>prednisolone 1 mg/kg</b> (max 60 mg), tapered over about 6 months.</p></div>
+    <div class="card red f"><div class="icon">💊</div><h3>Cyclophosphamide</h3><p class="small">Usually <b>oral, 2–3 mg/kg/day for about 3 months</b> (dose reduced for age). Rituximab is sometimes used as an alternative.</p></div>
+  </div>
+  <div class="grid2 mt">
+    <div class="callout red f"><b>Poor renal outlook</b> if dialysis-dependent with 100% crescents, but if there is <b>DAH, treat anyway</b>. The lungs come first.</div>
+    <div class="callout teal f"><b>On the horizon:</b> <b>imlifidase</b>, an enzyme that cleaves IgG in hours. Phase 2 results were promising; phase 3 is under way.</div>
+  </div>
+  <p class="small mt f">Relapse is <b>rare</b>, so long-term maintenance is usually unnecessary, <b>unless double-positive</b>. Help the patient stop smoking.</p>
+  <aside class="notes">
+    <p><b>49:00–50:00.</b> Anti-GBM disease is where plasma exchange is standard care (KDIGO). Speed matters more than anything: a creatinine above 500 at presentation predicts poor renal recovery.</p>
+    <p>Imlifidase: GOOD-IDES-01 (phase 2, Uhlin et al. JASN 2022) — single dose in addition to standard care. Phase 3 (GOOD-IDES-02) is ongoing.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     34. TRIALS TIMELINE
+     ============================================================ -->
+<section class="slide" data-title="The trials that shaped practice" data-section="Management" data-optional="1">
+  <div class="chrome-top"><span class="chip sky">Evidence</span><span class="chip">⏩ optional</span><span class="timechip">~1 min</span></div>
+  <h2>Six trials you should <em>know</em></h2>
+  <div class="tl">
+    <div class="ev f"><div class="yr">2009</div><div class="nm">CYCLOPS</div><p>IV pulsed CYC is as good as daily oral CYC for remission, with less leucopenia and slightly more relapse.</p></div>
+    <div class="ev f"><div class="yr">2010</div><div class="nm">RAVE</div><p>Rituximab <b>non-inferior</b> to CYC, and <b>superior in relapsing disease</b>. Note: it excluded severe DAH and severe renal disease.</p></div>
+    <div class="ev f"><div class="yr">2010</div><div class="nm">RITUXVAS</div><p>RTX + 2 CYC pulses compared with CYC alone in renal AAV: similar outcomes.</p></div>
+    <div class="ev f"><div class="yr">2014</div><div class="nm">MAINRITSAN</div><p>Rituximab maintenance beats azathioprine: fewer major relapses.</p></div>
+    <div class="ev f"><div class="yr">2020</div><div class="nm">PEXIVAS</div><p>PLEX: no reduction in death or ESKD. <b>Reduced-dose steroids are safe.</b></p></div>
+    <div class="ev f"><div class="yr">2021</div><div class="nm">ADVOCATE</div><p>Avacopan instead of a prednisolone taper: non-inferior at week 26, <b>superior at week 52</b>.</p></div>
+  </div>
+  <div class="callout mt2 f">Up-to-date guidance: <b>KDIGO 2024</b> (AAV) · <b>EULAR 2022</b> update · <b>BSR</b> guideline for AAV. Local renal network protocols apply.</div>
+  <aside class="notes">
+    <p><b>Optional slide, 50:00–51:00.</b> Skip in the 45-minute version (press S).</p>
+    <p>For consultants and SpRs: note that RAVE excluded patients with severe DAH (needing mechanical ventilation) and creatinine above 4 mg/dL (about 354 µmol/L). This is why many centres still favour CYC, or RTX + CYC, in the sickest PRS patients.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     35. SUPPORTIVE CARE BUNDLE
+     ============================================================ -->
+<section class="slide" data-title="The supportive care bundle" data-section="Management">
+  <div class="chrome-top"><span class="chip teal">Don't forget</span><span class="timechip">~1 min</span></div>
+  <h2>The bits that <em>stop the harm</em></h2>
+  <div class="grid4" style="gap:18px">
+    <div class="card f"><div class="icon">🦠</div><h3>PJP prophylaxis</h3><p class="small">Co-trimoxazole (e.g. 480 mg daily). Adjust for renal function.</p></div>
+    <div class="card f"><div class="icon">🦴</div><h3>Bone protection</h3><p class="small">Calcium and vitamin D. Consider a bisphosphonate (check eGFR).</p></div>
+    <div class="card f"><div class="icon">🛡️</div><h3>Gastric protection</h3><p class="small">PPI while on high-dose steroids.</p></div>
+    <div class="card f"><div class="icon">🩸</div><h3>VTE</h3><p class="small">Mechanical while bleeding. Chemical once DAH settles. The risk is genuinely high.</p></div>
+    <div class="card f"><div class="icon">💉</div><h3>Vaccines</h3><p class="small">Pneumococcal, influenza, COVID-19. <b>No live vaccines</b>.</p></div>
+    <div class="card f"><div class="icon">🧪</div><h3>Hep B / HIV</h3><p class="small">Screen <b>before</b> rituximab. Check immunoglobulins.</p></div>
+    <div class="card f"><div class="icon">👶</div><h3>Fertility</h3><p class="small">Discuss sperm or egg preservation before CYC.</p></div>
+    <div class="card f"><div class="icon">🍬</div><h3>Glucose and BP</h3><p class="small">Steroid-induced hyperglycaemia. Monitor capillary glucose.</p></div>
+  </div>
+  <p class="callout mt f"><b>Infection is the leading cause of death in the first year</b>, more often than active vasculitis. Prophylaxis saves lives.</p>
+  <aside class="notes">
+    <p><b>51:00–52:00.</b> This is the slide for FYs and CTs: these are jobs you can make sure happen on the ward round.</p>
+    <p>In the EUVAS long-term follow-up (Little et al. 2010), infection caused about half of deaths in the first year, compared with about one in five from active vasculitis.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     36. RESPIRATORY ANGLE
+     ============================================================ -->
+<section class="slide" data-title="The respiratory angle" data-section="Management">
+  <div class="chrome-top"><span class="chip sky">For the chest team</span><span class="timechip">~1 min</span></div>
+  <h2>The <em>respiratory</em> angle</h2>
+  <div class="grid2">
+    <div class="card sky f">
+      <h4 class="sky">Acute</h4>
+      <ul class="clean small">
+        <li><b>Ventilation:</b> lung-protective; consider higher PEEP</li>
+        <li><b>VV-ECMO</b> as a bridge in refractory DAH (case series; specialist centre)</li>
+        <li><b>Tranexamic acid</b> (IV or nebulised): low-quality evidence, sometimes used</li>
+        <li>Intrapulmonary <b>rFVIIa</b>: case reports only, last resort</li>
+        <li>BAL to exclude infection, and repeat if new shadowing appears</li>
+      </ul>
+    </div>
+    <div class="card gold f">
+      <h4 class="gold">Long term: respiratory clinic</h4>
+      <ul class="clean small gold">
+        <li><b>Subglottic or bronchial stenosis</b> (GPA): flow-volume loops, ENT/airway MDT</li>
+        <li><b>ILD</b>, especially with MPO-ANCA</li>
+        <li><b>Bronchiectasis</b> and recurrent infection; hypogammaglobulinaemia after RTX</li>
+        <li><b>New DAH = relapse</b> until proven otherwise</li>
+        <li>Nodules: follow up, and remember TB and malignancy</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>52:00–53:00.</b> Tailored to the pulmonary SpRs and consultants. Ask: "How many vasculitis patients are in our ILD or bronchiectasis clinics?" Probably more than we think.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     37. CASE 2 — LIGHTNING ROUND
+     ============================================================ -->
+<section class="slide" data-title="Case 2: lightning round" data-section="Management">
+  <div class="chrome-top"><span class="chip gold">Case 2 · team quiz</span><span class="timechip">~1 min</span></div>
+  <div class="score" data-score></div>
+  <div class="mcq mt" data-answer="1">
+    <div class="q"><b class="violet">Ms K, 24</b>, smokes 15 a day. Two days of haemoptysis, SpO₂ 90% on air, creatinine 680. Anti-GBM strongly positive, ANCA negative. Biopsy: <b>linear IgG</b>, 85% crescents. <span class="gold">What's next?</span></div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>Rituximab alone, then reassess at 4 weeks</button>
+      <button class="opt"><span class="k">B</span>Daily PLEX + steroids + cyclophosphamide</button>
+      <button class="opt"><span class="k">C</span>Steroids only; repeat the antibody in 2 weeks</button>
+      <button class="opt"><span class="k">D</span>Dialysis only: the kidneys can't be saved</button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button></div>
+    <div class="explain callout teal"><b>B.</b> Anti-GBM disease with DAH is an emergency: daily plasma exchange, steroids and cyclophosphamide. Even if the kidneys may not recover, <b>the lung haemorrhage must be treated</b>, so D is wrong. Smoking cessation too.</div>
+  </div>
+  <aside class="notes">
+    <p><b>53:00–54:00.</b> Quick-fire team question. Point to the team that answers first.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     38. PROGNOSIS
+     ============================================================ -->
+<section class="slide" data-title="Prognosis and follow-up" data-section="Management" data-optional="1">
+  <div class="chrome-top"><span class="chip">Prognosis</span><span class="chip">⏩ optional</span><span class="timechip">~1 min</span></div>
+  <h2>What happens <em>next?</em></h2>
+  <div class="grid3">
+    <div class="card f"><h4 class="red">Bad signs</h4><ul class="clean small"><li>Severe DAH needing ventilation</li><li>Dialysis at presentation</li><li>Older age</li><li>Few normal glomeruli on biopsy</li><li>Five-Factor Score: age &gt;65, cardiac or GI involvement, creatinine ≥150, no ENT disease</li></ul></div>
+    <div class="card f"><h4 class="gold">Relapse</h4><ul class="clean small gold"><li>Common in AAV, <b>especially PR3</b></li><li>Can present as new DAH, haematuria or ENT symptoms</li><li>Rare in anti-GBM disease</li><li>Track activity with <b>BVAS</b> and damage with <b>VDI</b></li></ul></div>
+    <div class="card f"><h4 class="teal">Long-term burden</h4><ul class="clean small teal"><li>CKD and ESKD</li><li>Cardiovascular disease</li><li>Infection and hypogammaglobulinaemia</li><li>Cancer (bladder after CYC, skin)</li><li>Fatigue: it's real</li></ul></div>
+  </div>
+  <div class="callout teal mt f">With modern treatment, most patients with AAV survive to 5 years. The challenge now is <b>preventing damage, toxicity and relapse</b>.</div>
+  <aside class="notes">
+    <p><b>Optional slide.</b> Skip in the 45-minute version.</p>
+    <p>FFS 2009 (Guillevin): age &gt;65, cardiac insufficiency, GI involvement, renal insufficiency (creatinine ≥150 µmol/L) and absence of ENT manifestations (for GPA/EGPA).</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     39. MYTH OR FACT
+     ============================================================ -->
+<section class="slide" data-title="Myth or fact?" data-section="Quiz" data-optional="1">
+  <div class="chrome-top"><span class="chip gold">Myth or fact?</span><span class="chip">⏩ optional</span><span class="timechip">~2 min</span></div>
+  <h2>Myth or <em>fact?</em></h2>
+  <div class="grid3" style="gap:20px">
+    <div class="flip"><div class="in"><div class="fa"><p>"No haemoptysis, so it can't be DAH."</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">MYTH</div><p>Up to a third have no haemoptysis. Follow the Hb and the oxygen requirement.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>"You need a renal biopsy before you start steroids."</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">MYTH</div><p>If the picture and serology fit, treat. The biopsy is still informative several days later.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>"Rituximab is as good as cyclophosphamide for induction in AAV."</p><div class="hint">Click to flip</div></div><div class="fb fact"><div class="verdict green">FACT</div><p>RAVE: non-inferior, and better in relapsing disease. (Severe PRS was excluded.)</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>"A rising ANCA titre on its own means you should escalate treatment."</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">MYTH</div><p>It's a modest predictor of relapse. Watch closely, but treat the patient, not the number.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>"Anti-GBM disease relapses as often as ANCA vasculitis."</p><div class="hint">Click to flip</div></div><div class="fb myth"><div class="verdict red">MYTH</div><p>Anti-GBM disease is usually monophasic. Double-positive patients are the exception.</p></div></div></div>
+    <div class="flip"><div class="in"><div class="fa"><p>"Infection kills more patients than vasculitis in the first year."</p><div class="hint">Click to flip</div></div><div class="fb fact"><div class="verdict green">FACT</div><p>So prescribe PJP prophylaxis, screen before rituximab, and use the lowest effective steroid dose.</p></div></div></div>
+  </div>
+  <aside class="notes">
+    <p><b>Optional, 54:00–55:00.</b> Read each statement, have the room shout "myth" or "fact", then flip. Fast and fun.</p>
+  </aside>
+</section>
+
+<!-- ============================================================
+     40. QUIZ SECTION
+     ============================================================ -->
+<section class="slide section-slide" data-title="Section 5: Quiz showdown" data-section="Quiz">
+  <div class="num">05</div>
+  <h1>The <em>showdown</em></h1>
+  <p class="lead mt">Team Alveolus vs Team Glomerulus. Four questions. Bragging rights at stake.</p>
+  <div class="score mt2" data-score style="max-width:900px"></div>
+  <aside class="notes"><p>About 55:00. Remind everyone of the current score.</p></aside>
+</section>
+
+<!-- 41. Q1 -->
+<section class="slide" data-title="Quiz Q1: trials" data-section="Quiz">
+  <div class="chrome-top"><span class="chip gold">Question 1 of 4</span></div>
+  <div class="score" data-score></div>
+  <div class="mcq mt" data-answer="1">
+    <div class="q">Which trial showed rituximab was <span class="gold">non-inferior to cyclophosphamide</span> for induction in ANCA vasculitis?</div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>CYCLOPS</button>
+      <button class="opt"><span class="k">B</span>RAVE</button>
+      <button class="opt"><span class="k">C</span>PEXIVAS</button>
+      <button class="opt"><span class="k">D</span>ADVOCATE</button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button></div>
+    <div class="explain callout teal"><b>RAVE</b> (Stone et al., NEJM 2010). Rituximab was non-inferior overall and superior in relapsing disease.</div>
+  </div>
+  <aside class="notes"><p>About 30 seconds per question. The first team to shout the right answer gets the point.</p></aside>
+</section>
+
+<!-- 42. Q2 -->
+<section class="slide" data-title="Quiz Q2: avacopan" data-section="Quiz">
+  <div class="chrome-top"><span class="chip gold">Question 2 of 4</span></div>
+  <div class="score" data-score></div>
+  <div class="mcq mt" data-answer="1">
+    <div class="q">Avacopan works by blocking…</div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>CD20 on B cells</button>
+      <button class="opt"><span class="k">B</span>The C5a receptor (C5aR1)</button>
+      <button class="opt"><span class="k">C</span>Interleukin-5</button>
+      <button class="opt"><span class="k">D</span>BAFF / BLyS</button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button></div>
+    <div class="explain callout teal"><b>B: C5aR1.</b> C5a primes and recruits neutrophils (remember the pathophysiology slide). CD20 is rituximab, IL-5 is mepolizumab (used in EGPA), BAFF is belimumab.</div>
+  </div>
+  <aside class="notes"><p>This links back to the ANCA pathogenesis diagram. Bonus point for anyone who names the drug for each wrong option.</p></aside>
+</section>
+
+<!-- 43. Q3 -->
+<section class="slide" data-title="Quiz Q3: before rituximab" data-section="Quiz">
+  <div class="chrome-top"><span class="chip gold">Question 3 of 4</span></div>
+  <div class="score" data-score></div>
+  <div class="mcq mt" data-answer="0">
+    <div class="q">Before giving rituximab, which test is <span class="gold">essential</span>?</div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>Hepatitis B serology</button>
+      <button class="opt"><span class="k">B</span>Thyroid function</button>
+      <button class="opt"><span class="k">C</span>Vitamin B12</button>
+      <button class="opt"><span class="k">D</span>Lipid profile</button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button></div>
+    <div class="explain callout teal"><b>A.</b> Rituximab can reactivate hepatitis B, which can be fatal. Check HBsAg and anti-HBc. Also check HIV, hepatitis C and baseline immunoglobulins.</div>
+  </div>
+  <aside class="notes"><p>This one is for FYs and CTs. Encourage them to answer first.</p></aside>
+</section>
+
+<!-- 44. Q4 -->
+<section class="slide" data-title="Quiz Q4: PEXIVAS" data-section="Quiz">
+  <div class="chrome-top"><span class="chip gold">Question 4 of 4 · double points</span></div>
+  <div class="score" data-score></div>
+  <div class="mcq mt" data-answer="1">
+    <div class="q">In PEXIVAS, what did adding plasma exchange do to the primary outcome (<span class="gold">death or ESKD</span>)?</div>
+    <div class="opts">
+      <button class="opt"><span class="k">A</span>Halved it</button>
+      <button class="opt"><span class="k">B</span>No significant reduction</button>
+      <button class="opt"><span class="k">C</span>Increased mortality</button>
+      <button class="opt"><span class="k">D</span>The trial stopped early for benefit</button>
+    </div>
+    <div class="btnrow"><button class="btn primary" data-reveal>Reveal answer</button><button class="btn" data-reset>Reset</button></div>
+    <div class="explain callout teal"><b>B.</b> No significant reduction in death or ESKD. Its most practice-changing finding was that <b>reduced-dose steroids</b> were just as effective, with fewer serious infections.</div>
+  </div>
+  <aside class="notes"><p>Double points: consultants answer for their team first. Then move to the winner slide.</p></aside>
+</section>
+
+<!-- 45. WINNER -->
+<section class="slide center" data-title="And the winner is…" data-section="Quiz">
+  <h4 class="gold">Final score</h4>
+  <h1 style="font-size:84px">And the winner is…</h1>
+  <div class="score mt2" data-score style="width:1000px"></div>
+  <button class="btn primary mt2" id="winnerBtn" style="font-size:22px;padding:16px 28px">🏆 Reveal the winner</button>
+  <div id="winnerOut" class="mt" style="font:400 64px var(--serif);min-height:80px"></div>
+  <p class="tiny mt">Prize: a lifetime of dipping urine. Consultants are excused.</p>
+  <aside class="notes"><p><b>About 58:00.</b> Click reveal for confetti. Then thank everyone and move on to the pitfalls and take-homes.</p></aside>
+</section>
+
+<!-- ============================================================
+     46. PITFALLS
+     ============================================================ -->
+<section class="slide" data-title="Seven ways to miss it" data-section="Wrap-up">
+  <div class="chrome-top"><span class="chip">Pitfalls</span><span class="timechip">~1 min</span></div>
+  <h2>Seven ways to <em>miss it</em></h2>
+  <div class="grid2" style="gap:14px 40px">
+    <div class="node f"><h3><span class="red mono">1</span>  Not dipping the urine</h3></div>
+    <div class="node f"><h3><span class="red mono">2</span>  "Non-resolving pneumonia": a third antibiotic</h3></div>
+    <div class="node f"><h3><span class="red mono">3</span>  Waiting for haemoptysis</h3></div>
+    <div class="node f"><h3><span class="red mono">4</span>  Waiting for the biopsy before treating</h3></div>
+    <div class="node f"><h3><span class="red mono">5</span>  Sending ANCA but not anti-GBM</h3></div>
+    <div class="node f"><h3><span class="red mono">6</span>  Skipping infection and hepatitis B screens</h3></div>
+    <div class="node f" style="grid-column:span 2;border-color:rgba(232,54,79,.5)"><h3><span class="red mono">7</span>  Not ringing renal or ICU because it's 4:55 on a Friday 🙃</h3></div>
+  </div>
+  <aside class="notes"><p><b>58:00–59:00.</b> Quick-fire. Each one maps to a point made earlier in the talk.</p></aside>
+</section>
+
+<!-- ============================================================
+     47. TAKE-HOME
+     ============================================================ -->
+<section class="slide" data-title="Take-home messages" data-section="Wrap-up">
+  <div class="chrome-top"><span class="chip teal">Take-home</span><span class="timechip">~1 min</span></div>
+  <h2>If you remember <em>five</em> things…</h2>
+  <div class="flow" style="gap:16px">
+    <div class="node f" style="border-color:rgba(232,54,79,.5)"><h3 style="font-size:28px"><span class="red">1.</span> Falling Hb + new lung shadowing + AKI = <span class="red">PRS until proven otherwise</span></h3></div>
+    <div class="node f" style="border-color:rgba(245,184,64,.5)"><h3 style="font-size:28px"><span class="gold">2.</span> Dip the urine and ask about the nose</h3></div>
+    <div class="node f" style="border-color:rgba(155,140,255,.5)"><h3 style="font-size:28px"><span class="violet">3.</span> Send ANCA <b>and</b> anti-GBM urgently; screen for infection</h3></div>
+    <div class="node f" style="border-color:rgba(34,195,181,.5)"><h3 style="font-size:28px"><span class="teal">4.</span> Treat early: steroids + RTX/CYC. PLEX for anti-GBM, case by case in AAV</h3></div>
+    <div class="node f" style="border-color:rgba(74,163,255,.5)"><h3 style="font-size:28px"><span class="sky">5.</span> It takes a team: respiratory, renal, ICU, rheumatology</h3></div>
+  </div>
+  <aside class="notes"><p><b>59:00–60:00.</b> Read them out slowly. This is what people will remember.</p></aside>
+</section>
+
+<!-- ============================================================
+     48. LOCAL ESCALATION
+     ============================================================ -->
+<section class="slide" data-title="Who to call" data-section="Wrap-up">
+  <div class="chrome-top"><span class="chip sky">Local pathway</span></div>
+  <h2>Who to call at <em>Calderdale</em></h2>
+  <p class="small muted" style="margin-top:-12px;margin-bottom:18px">Click any field to fill in the current local contacts before the talk. Check the Trust intranet for the latest pathway.</p>
+  <div class="grid3" style="gap:20px">
+    <div class="card red"><div class="icon">🫘</div><h3>Renal on-call</h3><p class="small" contenteditable="true" spellcheck="false">[Unit / bleep / switchboard route]</p></div>
+    <div class="card sky"><div class="icon">🏥</div><h3>ICU / outreach</h3><p class="small" contenteditable="true" spellcheck="false">[Bleep / extension]</p></div>
+    <div class="card gold"><div class="icon">🧬</div><h3>Rheumatology / vasculitis</h3><p class="small" contenteditable="true" spellcheck="false">[Team / referral route]</p></div>
+    <div class="card violet"><div class="icon">🧪</div><h3>Immunology lab</h3><p class="small" contenteditable="true" spellcheck="false">[Urgent ANCA / anti-GBM: phone number and cut-off times]</p></div>
+    <div class="card teal"><div class="icon">🩸</div><h3>Haematology</h3><p class="small" contenteditable="true" spellcheck="false">[For suspected TMA / plasma exchange access]</p></div>
+    <div class="card"><div class="icon">🫁</div><h3>Respiratory on-call</h3><p class="small" contenteditable="true" spellcheck="false">[Bronchoscopy / BAL access]</p></div>
+  </div>
+  <aside class="notes"><p>Fill this in with your supervisor beforehand. It's the most useful slide for the FYs and CTs. Consider printing it as a pocket card.</p></aside>
+</section>
+
+<!-- ============================================================
+     49. REFERENCES
+     ============================================================ -->
+<section class="slide" data-title="References" data-section="Wrap-up">
+  <div class="chrome-top"><span class="chip">References</span></div>
+  <h2>Key <em>references</em></h2>
+  <div class="grid2" style="gap:6px 40px;font-size:16px">
+    <ol style="padding-left:24px">
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">KDIGO 2024 Clinical Practice Guideline for the Management of ANCA-Associated Vasculitis. <i>Kidney Int</i> 2024;105(3S):S71–S116.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Hellmich B, et al. EULAR recommendations for the management of ANCA-associated vasculitis: 2022 update. <i>Ann Rheum Dis</i> 2024;83:30–47.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Chung SA, et al. 2021 ACR/Vasculitis Foundation guideline for the management of ANCA-associated vasculitis. <i>Arthritis Rheumatol</i> 2021;73:1366–83.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Walsh M, et al. Plasma exchange and glucocorticoids in severe ANCA-associated vasculitis (PEXIVAS). <i>N Engl J Med</i> 2020;382:622–31.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Walsh M, et al. Effects of plasma exchange on ESKD and mortality in ANCA-associated vasculitis: systematic review and meta-analysis. <i>BMJ</i> 2022;376:e064604.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Stone JH, et al. Rituximab versus cyclophosphamide for ANCA-associated vasculitis (RAVE). <i>N Engl J Med</i> 2010;363:221–32.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Jones RB, et al. Rituximab versus cyclophosphamide in ANCA-associated renal vasculitis (RITUXVAS). <i>N Engl J Med</i> 2010;363:211–20.</li>
+    </ol>
+    <ol start="8" style="padding-left:24px">
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">de Groot K, et al. Pulse versus daily oral cyclophosphamide (CYCLOPS). <i>Ann Intern Med</i> 2009;150:670–80.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Guillevin L, et al. Rituximab versus azathioprine for maintenance in ANCA-associated vasculitis (MAINRITSAN). <i>N Engl J Med</i> 2014;371:1771–80.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Jayne DRW, et al. Avacopan for the treatment of ANCA-associated vasculitis (ADVOCATE). <i>N Engl J Med</i> 2021;384:599–609.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Bossuyt X, et al. Revised 2017 international consensus on testing of ANCAs. <i>Nat Rev Rheumatol</i> 2017;13:683–92.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Jennette JC, et al. 2012 revised International Chapel Hill Consensus Conference nomenclature of vasculitides. <i>Arthritis Rheum</i> 2013;65:1–11.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">McAdoo SP, Pusey CD. Anti-glomerular basement membrane disease. <i>Clin J Am Soc Nephrol</i> 2017;12:1162–72.</li>
+      <li class="tiny" style="color:var(--ink2);margin:6px 0">Little MA, et al. Early mortality in systemic vasculitis: relative contribution of adverse events and active vasculitis. <i>Ann Rheum Dis</i> 2010;69:1036–43.</li>
+    </ol>
+  </div>
+  <p class="tiny mt">Illustrations are original schematics made for teaching; they are not patient images. Drug doses are for teaching only: follow local and network protocols. Check the references against current versions before the talk.</p>
+  <aside class="notes"><p>Leave up briefly, or skip and point people to the slide afterwards.</p></aside>
+</section>
+
+<!-- ============================================================
+     50. THANK YOU
+     ============================================================ -->
+<section class="slide title-slide" data-title="Questions" data-section="Wrap-up">
+  <div style="position:absolute;right:120px;top:50%;margin-top:-190px" class="float">
+    <svg viewBox="0 0 360 360" width="380" height="380" aria-label="Feedback QR placeholder">
+      <rect x="10" y="10" width="340" height="340" rx="30" fill="#fff"/>
+      <g fill="#0a1120">
+        <rect x="40" y="40" width="80" height="80" rx="8"/><rect x="56" y="56" width="48" height="48" fill="#fff"/><rect x="68" y="68" width="24" height="24"/>
+        <rect x="240" y="40" width="80" height="80" rx="8"/><rect x="256" y="56" width="48" height="48" fill="#fff"/><rect x="268" y="68" width="24" height="24"/>
+        <rect x="40" y="240" width="80" height="80" rx="8"/><rect x="56" y="256" width="48" height="48" fill="#fff"/><rect x="68" y="268" width="24" height="24"/>
+      </g>
+      <text x="180" y="185" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="20" font-weight="800" fill="#e8364f">REPLACE WITH</text>
+      <text x="180" y="210" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="20" font-weight="800" fill="#e8364f">FEEDBACK QR</text>
+    </svg>
+  </div>
+  <div style="max-width:860px">
+    <div class="eyebrow">Thank you</div>
+    <h1>Questions?<br><em>Haemoptysis?</em><br>Haematuria?</h1>
+    <p class="lead mt">Please leave feedback. It helps with my IMT portfolio, and with the next talk.</p>
+    <div class="meta">
+      <div>Presenter<b contenteditable="true" spellcheck="false">Dr [Your Name], IMT2</b></div>
+      <div>Feedback link<b contenteditable="true" spellcheck="false">[short link]</b></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Open the floor. Good questions to seed it if things are quiet: "Has anyone looked after a PRS patient? What happened?" or ask a consultant what they'd do differently from the guidelines.</p></aside>
+</section>
+
+</div></div>
+
+<!-- ============================================================
+     APP CHROME
+     ============================================================ -->
+<div id="timer">00:00</div>
+<div id="hud">
+  <button data-act="prev" title="Previous (←)">←</button>
+  <button data-act="next" title="Next (→ / space)">→</button>
+  <button data-act="overview" title="Overview (O)">Slides</button>
+  <button data-act="notes" title="Speaker notes (N)">Notes</button>
+  <button data-act="presenter" title="Presenter window (P)">Presenter</button>
+  <button data-act="short" title="45-minute mode (S)" id="shortBtn">Full talk</button>
+  <button data-act="theme" title="Light / dark (L)">Theme</button>
+  <button data-act="fullscreen" title="Fullscreen (F)">Full screen</button>
+  <button data-act="help" title="Help (?)">?</button>
+</div>
+<div id="notesPanel"><h5>Speaker notes · <span id="notesTitle"></span></h5><div id="notesBody"></div></div>
+<div id="overview"><div class="grid" id="ovGrid"></div></div>
+<div id="blackout"></div>
+<div id="presenterPane">
+  <div><div class="sub">Elapsed</div><div class="clock" id="pClock">00:00</div></div>
+  <div><div class="sub">Slide</div><div class="nx" id="pNow"></div></div>
+  <div><div class="sub">Notes</div><div class="pn" id="pNotes"></div></div>
+  <div><div class="sub">Up next</div><div class="nx" id="pNext"></div></div>
+</div>
+<div id="presenterBottom">
+  <button data-act="prev">← Previous</button>
+  <button data-act="next">Next →</button>
+  <button data-act="timerReset">Reset timer</button>
+  <button data-act="short" id="shortBtn2">Full talk</button>
+</div>
+<div id="help"><div class="box">
+  <h3>Controls</h3>
+  <table>
+    <tr><td>→ / Space / PgDn</td><td>Next step or slide</td></tr>
+    <tr><td>← / PgUp</td><td>Previous</td></tr>
+    <tr><td>Home / End</td><td>First / last slide</td></tr>
+    <tr><td>N</td><td>Speaker notes drawer</td></tr>
+    <tr><td>P</td><td>Open presenter window (move it to your laptop screen)</td></tr>
+    <tr><td>O</td><td>Slide overview</td></tr>
+    <tr><td>S</td><td>45-minute mode (skips slides marked ⏩ optional)</td></tr>
+    <tr><td>T</td><td>Show the timer · <b>0</b> resets it</td></tr>
+    <tr><td>B</td><td>Black screen</td></tr>
+    <tr><td>F</td><td>Full screen</td></tr>
+    <tr><td>L</td><td>Light / dark theme (for bright rooms)</td></tr>
+    <tr><td>R</td><td>Reset the team scores</td></tr>
+    <tr><td>Esc</td><td>Close panels</td></tr>
+  </table>
+  <p style="margin-top:16px;font-size:15px;color:#8fa3c4">Clicking quiz options, flip cards, hotspots and checklists does not move the slide.</p>
+</div></div>
+
+<style>
+/* poll */
+.poll{display:flex;flex-direction:column;gap:12px}
+.pollopt{display:grid;grid-template-columns:260px 1fr 50px;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;border:1.5px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);text-align:left;font:600 19px var(--sans);transition:border-color .2s}
+.pollopt:hover{border-color:var(--sky)}
+.pollopt .pbar{height:18px;border-radius:9px;background:rgba(255,255,255,.07);overflow:hidden}
+.pollopt .pbar span{display:block;height:100%;width:0;border-radius:9px;transition:width .4s}
+.pollopt[data-c="teal"] .pbar span{background:var(--oxy)}
+.pollopt[data-c="gold"] .pbar span{background:var(--gold)}
+.pollopt[data-c="red"] .pbar span{background:var(--blood)}
+.pollopt .pn{font:700 22px var(--mono);text-align:right}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:85}
+.optional-flag{display:none}
+</style>
+
+<script>
+(function(){
+  'use strict';
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+  var N = slides.length;
+  var root = document.documentElement;
+  var isPresenter = /[?&]presenter\b/.test(location.search);
+  var idx = 0, shortMode = false, peer = null;
+
+  function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+
+  /* ---------- footers ---------- */
+  slides.forEach(function(s, k){
+    if (s.classList.contains('title-slide') || s.classList.contains('section-slide')) return;
+    var f = document.createElement('div');
+    f.className = 'footer';
+    f.innerHTML = '<span>Pulmonary–Renal Syndrome<span class="dot"></span>Respiratory Medicine · Calderdale Royal Hospital</span><span class="num">' + (k + 1) + ' / ' + N + '</span>';
+    s.appendChild(f);
+  });
+
+  /* ---------- scale stage ---------- */
+  var vp = document.getElementById('viewport');
+  function fit(){
+    var r = vp.getBoundingClientRect();
+    root.style.setProperty('--scale', Math.min(r.width / 1600, r.height / 900));
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){
+    var n = parseInt((location.hash || '').slice(1), 10) - 1;
+    if (!isNaN(n) && n !== idx) show(n);
+  });
+
+  /* ---------- theme / short mode ---------- */
+  if (store('prs-theme') === 'light') root.setAttribute('data-theme', 'light');
+  shortMode = store('prs-short') === '1';
+  function setShortLabel(){
+    ['shortBtn', 'shortBtn2'].forEach(function(id){
+      var b = document.getElementById(id);
+      if (b) b.textContent = shortMode ? '45-min mode' : 'Full talk';
+    });
+  }
+
+  /* ---------- fragments ---------- */
+  function frags(s){ return Array.prototype.slice.call(s.querySelectorAll('.f')); }
+  function fragCount(){ return frags(slides[idx]).filter(function(f){ return f.classList.contains('on'); }).length; }
+  function setFrags(n){ frags(slides[idx]).forEach(function(f, k){ f.classList.toggle('on', k < n); }); }
+
+  function step(i, d){
+    var j = i + d;
+    while (j >= 0 && j < N && shortMode && slides[j].dataset.optional) j += d;
+    if (j < 0 || j >= N) return i;
+    return j;
+  }
+
+  /* ---------- navigation ---------- */
+  var timerStart = null, timerAcc = 0;
+  function startTimer(){ if (timerStart === null) timerStart = Date.now(); }
+
+  function show(n, fragsOn){
+    n = Math.max(0, Math.min(N - 1, n));
+    idx = n;
+    slides.forEach(function(s, k){
+      s.classList.toggle('active', k === idx);
+      s.classList.toggle('past', k < idx);
+    });
+    if (fragsOn !== undefined) setFrags(fragsOn);
+    document.getElementById('progress').style.width = ((idx + 1) / N * 100) + '%';
+    try{ history.replaceState(null, '', location.pathname + location.search + '#' + (idx + 1)); }catch(e){}
+    updateNotes();
+    renderScores();
+  }
+  function broadcast(){
+    var msg = { type: 'prs-state', idx: idx, on: fragCount(), short: shortMode };
+    if (chan) try{ chan.postMessage(msg); }catch(e){}
+    var target = peer && !peer.closed ? peer : (window.opener && !window.opener.closed ? window.opener : null);
+    if (target) try{ target.postMessage(msg, '*'); }catch(e){}
+  }
+  function next(){
+    startTimer();
+    var pending = frags(slides[idx]).filter(function(f){ return !f.classList.contains('on'); });
+    if (pending.length){ pending[0].classList.add('on'); broadcast(); return; }
+    var j = step(idx, 1);
+    if (j !== idx){ show(j); broadcast(); }
+  }
+  function prev(){
+    var on = frags(slides[idx]).filter(function(f){ return f.classList.contains('on'); });
+    if (on.length){ on[on.length - 1].classList.remove('on'); broadcast(); return; }
+    var j = step(idx, -1);
+    if (j !== idx){ show(j, frags(slides[j]).length); broadcast(); }
+  }
+  function go(n){ show(n); broadcast(); }
+
+  /* ---------- sync between windows ---------- */
+  var chan = null;
+  try{ chan = new BroadcastChannel('prs-deck'); }catch(e){}
+  function onSync(d){
+    if (!d || d.type !== 'prs-state') return;
+    if (d.short !== shortMode){ shortMode = d.short; setShortLabel(); }
+    if (d.idx !== idx) show(d.idx);
+    setFrags(d.on);
+    startTimer();
+  }
+  if (chan) chan.onmessage = function(e){ onSync(e.data); };
+  window.addEventListener('message', function(e){ onSync(e.data); });
+
+  /* ---------- notes / presenter ---------- */
+  function titleOf(s){ return s ? (s.dataset.title || 'Slide') : '—'; }
+  function notesOf(s){ var n = s.querySelector('.notes'); return n ? n.innerHTML : '<p>No notes for this slide.</p>'; }
+  function updateNotes(){
+    var s = slides[idx];
+    document.getElementById('notesTitle').textContent = (idx + 1) + '. ' + titleOf(s);
+    document.getElementById('notesBody').innerHTML = notesOf(s);
+    if (isPresenter){
+      var nx = step(idx, 1);
+      document.getElementById('pNow').textContent = (idx + 1) + ' / ' + N + ' · ' + titleOf(s) + (s.dataset.optional ? '  (optional)' : '');
+      document.getElementById('pNotes').innerHTML = notesOf(s);
+      document.getElementById('pNext').textContent = nx === idx ? 'End of talk' : (nx + 1) + '. ' + titleOf(slides[nx]);
+    }
+  }
+  function openPresenter(){
+    var url = location.href.split('#')[0];
+    url += (url.indexOf('?') > -1 ? '&' : '?') + 'presenter#' + (idx + 1);
+    peer = window.open(url, 'prs-presenter', 'width=1280,height=800');
+    setTimeout(broadcast, 800);
+  }
+
+  /* ---------- timer ---------- */
+  function fmt(ms){ var t = Math.floor(ms / 1000); var m = Math.floor(t / 60), s = t % 60; return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+  setInterval(function(){
+    var ms = timerStart === null ? 0 : Date.now() - timerStart;
+    var txt = fmt(ms);
+    document.getElementById('timer').textContent = txt;
+    var pc = document.getElementById('pClock'); if (pc) pc.textContent = txt;
+  }, 500);
+
+  /* ---------- overview ---------- */
+  function buildOverview(){
+    var g = document.getElementById('ovGrid'); g.innerHTML = '';
+    slides.forEach(function(s, k){
+      var b = document.createElement('button');
+      b.className = 'th' + (k === idx ? ' cur' : '');
+      b.innerHTML = '<small>' + (k + 1) + ' · ' + (s.dataset.section || '') + (s.dataset.optional ? ' · ⏩ optional' : '') + '</small><span>' + titleOf(s) + '</span>';
+      b.onclick = function(){ toggle('overview', false); go(k); };
+      g.appendChild(b);
+    });
+  }
+  function toggle(id, force){
+    var el = document.getElementById(id);
+    var on = force === undefined ? !el.classList.contains('show') : force;
+    el.classList.toggle('show', on);
+    if (id === 'overview' && on) buildOverview();
+  }
+
+  /* ---------- scoreboard ---------- */
+  var score = { a: 0, b: 0 };
+  try{ var sv = JSON.parse(store('prs-score') || 'null'); if (sv) score = sv; }catch(e){}
+  function saveScore(){ store('prs-score', JSON.stringify(score)); }
+  function renderScores(){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-score]'), function(el){
+      el.innerHTML =
+        '<div class="team" style="border-color:rgba(34,195,181,.5)"><span class="nm teal">🫁 Team Alveolus</span><button data-team="a" data-d="-1">−</button><span class="pts teal">' + score.a + '</span><button data-team="a" data-d="1">+</button></div>' +
+        '<div class="team" style="border-color:rgba(232,54,79,.5)"><span class="nm red">🫘 Team Glomerulus</span><button data-team="b" data-d="-1">−</button><span class="pts red">' + score.b + '</span><button data-team="b" data-d="1">+</button></div>';
+    });
+  }
+
+  /* ---------- confetti ---------- */
+  function confetti(){
+    var c = document.createElement('canvas'); c.id = 'confetti'; document.body.appendChild(c);
+    var x = c.getContext('2d'); c.width = innerWidth; c.height = innerHeight;
+    var cols = ['#e8364f', '#22c3b5', '#f5b840', '#9b8cff', '#4aa3ff', '#ffffff'];
+    var P = []; for (var i = 0; i < 240; i++) P.push({ x: c.width / 2, y: c.height * 0.45, vx: (Math.random() - .5) * 22, vy: -Math.random() * 20 - 6, s: Math.random() * 8 + 4, r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: cols[i % cols.length] });
+    var t0 = Date.now();
+    (function tick(){
+      x.clearRect(0, 0, c.width, c.height);
+      P.forEach(function(p){ p.vy += .45; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); x.restore(); });
+      if (Date.now() - t0 < 4500) requestAnimationFrame(tick); else c.remove();
+    })();
+  }
+
+  /* ---------- interactive delegation ---------- */
+  function updateBundle(){
+    var box = document.getElementById('bundle'); if (!box) return;
+    var all = box.querySelectorAll('.check'), on = box.querySelectorAll('.check.on');
+    document.getElementById('bundleBar').style.width = (on.length / all.length * 100) + '%';
+    var t = document.getElementById('bundleTxt');
+    if (on.length === all.length){ t.innerHTML = '<span class="green">✓ Bundle complete: now ring renal!</span>'; }
+    else t.textContent = on.length + ' / ' + all.length + ' done';
+  }
+  function updatePoll(p){
+    var opts = p.querySelectorAll('.pollopt'), tot = 0;
+    Array.prototype.forEach.call(opts, function(o){ tot += +o.dataset.n || 0; });
+    Array.prototype.forEach.call(opts, function(o){
+      var n = +o.dataset.n || 0;
+      o.querySelector('.pn').textContent = n;
+      o.querySelector('.pbar span').style.width = (tot ? n / tot * 100 : 0) + '%';
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    var act = t.closest('[data-act]');
+    if (act){
+      var a = act.dataset.act;
+      if (a === 'next') next();
+      else if (a === 'prev') prev();
+      else if (a === 'overview') toggle('overview');
+      else if (a === 'notes') toggle('notesPanel');
+      else if (a === 'presenter') openPresenter();
+      else if (a === 'help') toggle('help');
+      else if (a === 'theme') toggleTheme();
+      else if (a === 'fullscreen') fullscreen();
+      else if (a === 'short') toggleShort();
+      else if (a === 'timerReset'){ timerStart = Date.now(); }
+      return;
+    }
+    if (t.closest('#help') && !t.closest('.box')) { toggle('help', false); return; }
+
+    // vote tallies on MCQ options
+    var v = t.closest('.votes i');
+    if (v){
+      e.stopPropagation();
+      var span = v.parentNode.querySelector('span');
+      span.textContent = Math.max(0, (+span.textContent) + (+v.dataset.d));
+      return;
+    }
+    // MCQ option
+    var opt = t.closest('.opt');
+    if (opt){
+      var m = opt.closest('.mcq');
+      Array.prototype.forEach.call(m.querySelectorAll('.opt'), function(o){ o.classList.remove('chosen'); });
+      opt.classList.add('chosen');
+      return;
+    }
+    var rv = t.closest('[data-reveal]');
+    if (rv){
+      var mq = rv.closest('.mcq');
+      var ans = +mq.dataset.answer;
+      Array.prototype.forEach.call(mq.querySelectorAll('.opt'), function(o, k){ o.classList.toggle('correct', k === ans); });
+      mq.classList.add('revealed');
+      return;
+    }
+    var rs = t.closest('[data-reset]');
+    if (rs){
+      var mr = rs.closest('.mcq');
+      mr.classList.remove('revealed');
+      Array.prototype.forEach.call(mr.querySelectorAll('.opt'), function(o){ o.classList.remove('chosen', 'correct'); });
+      Array.prototype.forEach.call(mr.querySelectorAll('.votes span'), function(s){ s.textContent = '0'; });
+      return;
+    }
+    var fl = t.closest('.flip'); if (fl){ fl.classList.toggle('on'); return; }
+    var ck = t.closest('.check'); if (ck){ ck.classList.toggle('on'); updateBundle(); return; }
+    var hot = t.closest('.hot');
+    if (hot){
+      Array.prototype.forEach.call(document.querySelectorAll('.hot'), function(h){ h.classList.remove('sel'); });
+      hot.classList.add('sel');
+      var col = { gold: 'gold', red: 'red', teal: 'teal' }[hot.dataset.c] || 'gold';
+      document.getElementById('bodyInfo').innerHTML = '<h4 class="' + col + '">Clue</h4><h3 style="font-size:38px;font-family:var(--serif);font-weight:400">' + hot.dataset.t + '</h3><p class="mt">' + hot.dataset.d + '</p>';
+      return;
+    }
+    var an = t.closest('[data-annot]');
+    if (an){
+      an.dataset.on = an.dataset.on === '1' ? '0' : '1';
+      an.dataset.annot.split(',').forEach(function(sel){
+        Array.prototype.forEach.call(document.querySelectorAll(sel + ' .annot'), function(g){ g.style.opacity = an.dataset.on === '1' ? 1 : 0; });
+      });
+      return;
+    }
+    var sh = t.closest('[data-show]'); if (sh){ document.querySelector(sh.dataset.show).classList.toggle('on'); return; }
+    var rl = t.closest('.reveal-lbl');
+    if (rl){ var out = rl.parentNode.querySelector('.lbl-out'); out.innerHTML = out.innerHTML ? '' : rl.dataset.label; return; }
+    var tm = t.closest('[data-team]');
+    if (tm){ score[tm.dataset.team] = Math.max(0, score[tm.dataset.team] + (+tm.dataset.d)); saveScore(); renderScores(); return; }
+    var po = t.closest('.pollopt');
+    if (po){ po.dataset.n = Math.max(0, (+po.dataset.n || 0) + (e.shiftKey ? -1 : 1)); updatePoll(po.closest('.poll')); return; }
+    if (t.closest('#winnerBtn')){
+      var w = document.getElementById('winnerOut');
+      if (score.a === score.b) w.innerHTML = '<span class="gold">It\'s a draw! The kidneys and lungs share the glory.</span>';
+      else if (score.a > score.b) w.innerHTML = '<span class="teal">🫁 Team Alveolus wins!</span>';
+      else w.innerHTML = '<span class="red">🫘 Team Glomerulus wins!</span>';
+      confetti();
+      return;
+    }
+  });
+
+  function toggleTheme(){
+    var light = root.getAttribute('data-theme') === 'light';
+    if (light) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+    store('prs-theme', light ? 'dark' : 'light');
+  }
+  function fullscreen(){
+    if (!document.fullscreenElement) { var r = document.documentElement.requestFullscreen; if (r) r.call(document.documentElement).catch(function(){}); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+  function toggleShort(){
+    shortMode = !shortMode; store('prs-short', shortMode ? '1' : '0'); setShortLabel(); broadcast();
+  }
+
+  /* ---------- keyboard ---------- */
+  document.addEventListener('keydown', function(e){
+    if (e.target.isContentEditable || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'ArrowDown'){ e.preventDefault(); next(); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'ArrowUp' || k === 'Backspace'){ e.preventDefault(); prev(); }
+    else if (k === 'Home'){ go(0); }
+    else if (k === 'End'){ go(N - 1); }
+    else if (k === 'n' || k === 'N'){ toggle('notesPanel'); }
+    else if (k === 'o' || k === 'O'){ toggle('overview'); }
+    else if (k === 'p' || k === 'P'){ openPresenter(); }
+    else if (k === 'b' || k === 'B' || k === '.'){ toggle('blackout'); }
+    else if (k === 'f' || k === 'F'){ fullscreen(); }
+    else if (k === 't' || k === 'T'){ startTimer(); document.getElementById('timer').classList.toggle('show'); }
+    else if (k === '0'){ timerStart = Date.now(); }
+    else if (k === 's' || k === 'S'){ toggleShort(); }
+    else if (k === 'l' || k === 'L'){ toggleTheme(); }
+    else if (k === 'r' || k === 'R'){ if (confirm('Reset both team scores to 0?')){ score = { a: 0, b: 0 }; saveScore(); renderScores(); } }
+    else if (k === '?' || k === 'h' || k === 'H'){ toggle('help'); }
+    else if (k === 'Escape'){ ['help', 'overview', 'notesPanel', 'blackout'].forEach(function(id){ toggle(id, false); }); }
+  });
+
+  /* ---------- touch swipe ---------- */
+  var tx = null;
+  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function(e){
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 60){ dx < 0 ? next() : prev(); }
+  });
+
+  /* ---------- init ---------- */
+  if (isPresenter){ document.body.classList.add('presenter'); document.title = 'Presenter · ' + document.title; }
+  setShortLabel();
+  fit();
+  var h = parseInt((location.hash || '').slice(1), 10);
+  show(isNaN(h) ? 0 : h - 1);
+  renderScores();
+})();
+</script>
+</body>
+</html>
