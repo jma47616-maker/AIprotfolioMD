@@ -2,6 +2,7 @@
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.className+=" js";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pulmonary–Renal Syndrome</title>
 <meta name="description" content="Teaching session on pulmonary–renal syndrome for the Respiratory Department, Calderdale Royal Hospital.">
@@ -43,20 +44,21 @@ button{font-family:inherit;cursor:pointer}
 /* ============================================================
    STAGE — 1600x900 design canvas scaled to fit the screen
    ============================================================ */
-#viewport{position:fixed;inset:0;display:grid;place-items:center}
-#stage{width:1600px;height:900px;position:relative;transform:scale(var(--scale));transform-origin:center center;flex:none}
+#viewport{position:fixed;inset:0;overflow:hidden}
+#stage{width:1600px;height:900px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center center}
 .slide{
   position:absolute;inset:0;padding:64px 88px 70px;
   background:
     radial-gradient(1200px 600px at 110% -10%, rgba(232,54,79,.13), transparent 60%),
     radial-gradient(900px 600px at -10% 110%, rgba(34,195,181,.11), transparent 60%),
     linear-gradient(160deg,var(--bg2),var(--bg));
-  overflow:hidden;opacity:0;visibility:hidden;
+  overflow:hidden;
   transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1), visibility 0s .5s;
   transform:translateX(40px) scale(.985);
   display:flex;flex-direction:column;
 }
-.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
+.js .slide{opacity:0;visibility:hidden}
+.js .slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
 .slide.past{transform:translateX(-40px) scale(.985)}
 .slide::after{ /* fine grid texture */
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
@@ -138,8 +140,8 @@ table.t tr:last-child td{border-bottom:none}
 table.t td:first-child{color:var(--ink);font-weight:700}
 
 /* fragments (revealed one-by-one with → / space) */
-.f{opacity:0;transform:translateY(14px);transition:opacity .4s ease, transform .45s cubic-bezier(.2,.7,.2,1)}
-.f.on{opacity:1;transform:none}
+.js .f{opacity:0;transform:translateY(14px);transition:opacity .4s ease, transform .45s cubic-bezier(.2,.7,.2,1)}
+.js .f.on{opacity:1;transform:none}
 .f.dim-prev.on ~ .f.on{} /* placeholder */
 
 /* ============================================================
@@ -193,8 +195,8 @@ table.t td:first-child{color:var(--ink);font-weight:700}
 .progressbar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--oxy),var(--green));transition:width .4s}
 
 /* reveal step buttons in cases */
-.step{opacity:.0;transform:translateY(10px);transition:all .45s}
-.step.on{opacity:1;transform:none}
+.js .step{opacity:0;transform:translateY(10px);transition:all .45s}
+.js .step.on{opacity:1;transform:none}
 
 /* hotspot body map */
 .hot{cursor:pointer}
@@ -208,7 +210,7 @@ table.t td:first-child{color:var(--ink);font-weight:700}
 .bar .lab{font:600 21px var(--sans);color:var(--ink)}
 .bar .track{height:30px;border-radius:9px;background:rgba(255,255,255,.06);overflow:hidden}
 .bar .val{height:100%;width:0;border-radius:9px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
-.slide.active .bar .val{width:var(--w)}
+.slide.active .bar .val, html:not(.js) .bar .val{width:var(--w)}
 .bar .pct{font:600 20px var(--mono);color:var(--muted);text-align:right}
 
 /* timeline */
@@ -257,6 +259,7 @@ table.t td:first-child{color:var(--ink);font-weight:700}
 .drip{animation:drip 2.4s ease-in infinite}
 @keyframes drip{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(60px);opacity:0}}
 .draw{stroke-dasharray:1400;stroke-dashoffset:1400}
+html:not(.js) .draw{stroke-dashoffset:0}
 .slide.active .draw{animation:drawin 2.2s .3s ease forwards}
 @keyframes drawin{to{stroke-dashoffset:0}}
 .pop{opacity:0}
@@ -311,6 +314,16 @@ body.presenter #presenterBottom{display:flex;position:fixed;left:0;right:38%;bot
 #presenterBottom button{font:700 18px var(--sans);padding:16px 26px;border-radius:14px;border:1px solid rgba(255,255,255,.15);background:#14213b;color:#e9eef7}
 #presenterBottom button:hover{background:#2a4d8f}
 
+/* Without JavaScript (e.g. a file preview): show every slide stacked */
+html:not(.js),html:not(.js) body{overflow:auto;height:auto}
+html:not(.js) #viewport{position:static;overflow:visible;padding:20px 0}
+html:not(.js) #stage{position:static;transform:none;height:auto;margin:0 auto;zoom:.75}
+html:not(.js) .slide{position:relative;inset:auto;height:900px;margin:0 0 24px;border-radius:12px}
+html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) button[data-show],html:not(.js) #winnerBtn{display:none}
+@media (max-width:1250px){html:not(.js) #stage{zoom:.6}}
+@media (max-width:1000px){html:not(.js) #stage{zoom:.45}}
+@media (max-width:760px){html:not(.js) #stage{zoom:.3}}
+@media (max-width:520px){html:not(.js) #stage{zoom:.22}}
 @media print{
   html,body{overflow:visible;background:#fff}
   #viewport{position:static;display:block}
