@@ -21,5 +21,5 @@ Open `index.html` in Chrome or Edge. Everything is in that one file. Fonts load 
 | B | Black screen |
 | L | Light theme for bright rooms |
 | F | Full screen |
-| R | Reset team scores |
+| R (twice) | Reset team scores |
 | ? | Help |

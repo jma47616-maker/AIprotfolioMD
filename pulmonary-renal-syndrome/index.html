@@ -26,7 +26,7 @@
   --scale:1;
   color-scheme: dark;
 }
-:root[data-theme="light"]{
+:root[data-deck="light"]{
   --bg:#f4f6fb; --bg2:#e9eef7; --panel:#ffffff; --panel2:#eef2f9;
   --ink:#0d1b33; --ink2:#22324f; --muted:#5a6b88; --line:rgba(13,27,51,.12);
   --blood:#c81e3a; --blood2:#e0344d; --blood3:#f9d5db;
@@ -38,7 +38,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#05090f;overflow:hidden}
 body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
-:root[data-theme="light"] body{background:#c9d1df}
+:root[data-deck="light"] body{background:#c9d1df}
 button{font-family:inherit;cursor:pointer}
 
 /* ============================================================
@@ -112,7 +112,7 @@ mark{background:linear-gradient(transparent 55%,rgba(245,184,64,.45) 55%);color:
 .fill{flex:1;min-height:0}
 .mt{margin-top:22px}.mt2{margin-top:40px}.mb{margin-bottom:18px}
 .card{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:26px 28px;box-shadow:var(--shadow)}
-:root[data-theme="light"] .card{background:var(--panel)}
+:root[data-deck="light"] .card{background:var(--panel)}
 .card.red{border-color:rgba(232,54,79,.45);background:linear-gradient(180deg,rgba(232,54,79,.14),rgba(232,54,79,.03))}
 .card.teal{border-color:rgba(34,195,181,.45);background:linear-gradient(180deg,rgba(34,195,181,.13),rgba(34,195,181,.03))}
 .card.gold{border-color:rgba(245,184,64,.45);background:linear-gradient(180deg,rgba(245,184,64,.13),rgba(245,184,64,.03))}
@@ -151,7 +151,7 @@ table.t td:first-child{color:var(--ink);font-weight:700}
 .mcq .q{font:600 30px/1.35 var(--sans);color:var(--ink);margin-bottom:22px}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .opt{display:flex;align-items:center;gap:18px;text-align:left;font:500 22px/1.35 var(--sans);color:var(--ink);background:rgba(255,255,255,.05);border:1.5px solid var(--line);border-radius:18px;padding:18px 22px;transition:all .25s}
-:root[data-theme="light"] .opt{background:var(--panel)}
+:root[data-deck="light"] .opt{background:var(--panel)}
 .opt:hover{border-color:var(--sky);transform:translateY(-2px)}
 .opt .k{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font:700 20px var(--mono);background:rgba(255,255,255,.08)}
 .opt .votes{margin-left:auto;font:600 18px var(--mono);color:var(--muted);display:flex;align-items:center;gap:6px}
@@ -2033,7 +2033,7 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
     <tr><td>B</td><td>Black screen</td></tr>
     <tr><td>F</td><td>Full screen</td></tr>
     <tr><td>L</td><td>Light / dark theme (for bright rooms)</td></tr>
-    <tr><td>R</td><td>Reset the team scores</td></tr>
+    <tr><td>R R</td><td>Reset the team scores (press twice)</td></tr>
     <tr><td>Esc</td><td>Close panels</td></tr>
   </table>
   <p style="margin-top:16px;font-size:15px;color:#8fa3c4">Clicking quiz options, flip cards, hotspots and checklists does not move the slide.</p>
@@ -2051,6 +2051,9 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
 .pollopt[data-c="red"] .pbar span{background:var(--blood)}
 .pollopt .pn{font:700 22px var(--mono);text-align:right}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:85}
+#toast{position:fixed;left:50%;bottom:calc(64px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:95;background:#0f1a30;color:#eef3fb;border:1px solid rgba(245,184,64,.5);border-radius:12px;padding:12px 18px;font:600 16px var(--sans);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+#toast[hidden]{display:none}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .optional-flag{display:none}
 </style>
 
@@ -2075,6 +2078,15 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
     s.appendChild(f);
   });
 
+  /* ---------- toast ---------- */
+  var toastEl = document.createElement('div');
+  toastEl.id = 'toast'; toastEl.hidden = true; document.body.appendChild(toastEl);
+  var toastT = null;
+  function toast(msg){
+    toastEl.textContent = msg; toastEl.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.hidden = true; }, 3200);
+  }
+
   /* ---------- scale stage ---------- */
   var vp = document.getElementById('viewport');
   function fit(){
@@ -2088,7 +2100,7 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
   });
 
   /* ---------- theme / short mode ---------- */
-  if (store('prs-theme') === 'light') root.setAttribute('data-theme', 'light');
+  if (store('prs-theme') === 'light') root.setAttribute('data-deck', 'light');
   shortMode = store('prs-short') === '1';
   function setShortLabel(){
     ['shortBtn', 'shortBtn2'].forEach(function(id){
@@ -2177,7 +2189,8 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
   function openPresenter(){
     var url = location.href.split('#')[0];
     url += (url.indexOf('?') > -1 ? '&' : '?') + 'presenter#' + (idx + 1);
-    peer = window.open(url, 'prs-presenter', 'width=1280,height=800');
+    try{ peer = window.open(url, 'prs-presenter', 'width=1280,height=800'); }catch(e){ peer = null; }
+    if (!peer){ toast('Presenter window is blocked here. Press N for speaker notes instead.'); toggle('notesPanel', true); return; }
     setTimeout(broadcast, 800);
   }
 
@@ -2340,8 +2353,8 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
   });
 
   function toggleTheme(){
-    var light = root.getAttribute('data-theme') === 'light';
-    if (light) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+    var light = root.getAttribute('data-deck') === 'light';
+    if (light) root.removeAttribute('data-deck'); else root.setAttribute('data-deck', 'light');
     store('prs-theme', light ? 'dark' : 'light');
   }
   function fullscreen(){
@@ -2353,6 +2366,7 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
   }
 
   /* ---------- keyboard ---------- */
+  var resetArmed = false;
   document.addEventListener('keydown', function(e){
     if (e.target.isContentEditable || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -2370,7 +2384,10 @@ html:not(.js) #hud,html:not(.js) #progress,html:not(.js) .btnrow,html:not(.js) b
     else if (k === '0'){ timerStart = Date.now(); }
     else if (k === 's' || k === 'S'){ toggleShort(); }
     else if (k === 'l' || k === 'L'){ toggleTheme(); }
-    else if (k === 'r' || k === 'R'){ if (confirm('Reset both team scores to 0?')){ score = { a: 0, b: 0 }; saveScore(); renderScores(); } }
+    else if (k === 'r' || k === 'R'){
+      if (resetArmed){ resetArmed = false; score = { a: 0, b: 0 }; saveScore(); renderScores(); toast('Team scores reset to 0'); }
+      else { resetArmed = true; toast('Press R again to reset both team scores'); setTimeout(function(){ resetArmed = false; }, 3000); }
+    }
     else if (k === '?' || k === 'h' || k === 'H'){ toggle('help'); }
     else if (k === 'Escape'){ ['help', 'overview', 'notesPanel', 'blackout'].forEach(function(id){ toggle(id, false); }); }
   });
